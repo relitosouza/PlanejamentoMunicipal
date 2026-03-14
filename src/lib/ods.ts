@@ -1,0 +1,20 @@
+// src/lib/ods.ts
+export const ODS_LIST = [
+  { numero: 1,  titulo: 'Erradicação da Pobreza' },
+  { numero: 2,  titulo: 'Fome Zero e Agricultura Sustentável' },
+  { numero: 3,  titulo: 'Saúde e Bem-Estar' },
+  { numero: 4,  titulo: 'Educação de Qualidade' },
+  { numero: 5,  titulo: 'Igualdade de Gênero' },
+  { numero: 6,  titulo: 'Água Potável e Saneamento' },
+  { numero: 7,  titulo: 'Energia Limpa e Acessível' },
+  { numero: 8,  titulo: 'Trabalho Decente e Crescimento Econômico' },
+  { numero: 9,  titulo: 'Indústria, Inovação e Infraestrutura' },
+  { numero: 10, titulo: 'Redução das Desigualdades' },
+  { numero: 11, titulo: 'Cidades e Comunidades Sustentáveis' },
+  { numero: 12, titulo: 'Consumo e Produção Responsáveis' },
+  { numero: 13, titulo: 'Ação Contra a Mudança Global do Clima' },
+  { numero: 14, titulo: 'Vida na Água' },
+  { numero: 15, titulo: 'Vida Terrestre' },
+  { numero: 16, titulo: 'Paz, Justiça e Instituições Eficazes' },
+  { numero: 17, titulo: 'Parcerias e Meios de Implementação' },
+] as const
