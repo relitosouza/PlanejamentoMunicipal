@@ -1,7 +1,7 @@
 // prisma/seed.ts
 import { PrismaClient } from '../src/generated/prisma'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({} as any)
 
 const naturezasDespesa = [
   { codigo: '3.3.90.30', descricao: 'Material de Consumo' },
