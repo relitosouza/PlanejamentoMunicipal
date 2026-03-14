@@ -1,0 +1,49 @@
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-md);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--accent-color);
+}
+
+.error {
+  border-color: var(--danger);
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: var(--danger);
+  margin-top: 0.25rem;
+}
+
+.mandatory {
+  color: var(--danger);
+  margin-left: 2px;
+}
