@@ -6,3 +6,5 @@ node_modules/
 *.tsbuildinfo
 .DS_Store
 .superpowers/
+
+/src/generated/prisma

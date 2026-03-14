@@ -9,21 +9,39 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@auth/prisma-adapter": "^2.11.1",
+    "@hookform/resolvers": "^5.2.2",
+    "@prisma/client": "^7.5.0",
+    "@types/xml2js": "^0.4.14",
     "next": "latest",
+    "next-auth": "^5.0.0-beta.30",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-hook-form": "^7.71.2",
+    "recharts": "^3.8.0",
+    "xml2js": "^0.6.2",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.2.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.27",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "jsdom": "^28.1.0",
     "postcss": "^8.5.8",
+    "prisma": "^7.5.0",
     "tailwindcss": "^4.2.1",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vitest": "^4.1.0"
   }
 }
