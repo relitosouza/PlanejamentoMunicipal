@@ -14,7 +14,10 @@
       "Bash(cd \"C:/projects/PPA-LDO-LOA\" && npm run test:run 2>&1)",
       "Bash(cd C:/projects/PPA-LDO-LOA && npm run test:run)",
       "Bash(cd C:/projects/PPA-LDO-LOA && npm run test:run 2>&1)",
-      "Bash(cd C:/projects/PPA-LDO-LOA && npx shadcn@latest init -d 2>&1)"
+      "Bash(cd C:/projects/PPA-LDO-LOA && npx shadcn@latest init -d 2>&1)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npx shadcn@latest add button input select textarea label badge card table dialog dropdown-menu separator skeleton -y 2>&1)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npm run build 2>&1 | tail -40)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npm run build 2>&1 | tail -20)"
     ]
   }
 }

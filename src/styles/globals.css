@@ -7,14 +7,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-primary: #1c385f;
   --color-background-light: #f6f7f8;
   --color-background-dark: #13181f;
-
   --font-display: "Public Sans", sans-serif;
-
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
 }
 
 .material-symbols-outlined {
@@ -22,25 +17,7 @@
 }
 
 :root {
-  --primary-color: #1c385f;
-  --secondary-color: #1458b8;
-  --accent-color: #257bf4;
-  --bg-color: #f8f9fa;
-  --sidebar-bg: #1c385f;
-  --text-primary: #1a1a1a;
-  --text-secondary: #6c757d;
-  --text-white: #ffffff;
-  --white: #ffffff;
-  --danger: #dc3545;
-  --warning: #ffc107;
-  --success: #28a745;
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  --font-main: 'Public Sans', sans-serif;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --sidebar-width: 260px;
+  --font-sans: 'Public Sans', sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -73,67 +50,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  font-family: var(--font-main);
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  min-height: 100vh;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--primary-color);
-  font-weight: 700;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.card {
-  background: var(--white);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-md);
-  padding: 1.5rem;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  color: var(--text-white);
-  padding: 0.75rem 1.5rem;
-}
-
-.layout-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.main-wrapper {
-  flex: 1;
-  margin-left: var(--sidebar-width);
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content {
-  padding: 2rem;
-  flex: 1;
 }
 
 .dark {
