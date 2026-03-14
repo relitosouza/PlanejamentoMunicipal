@@ -1,6 +1,9 @@
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
-import { Public_Sans } from 'next/font/google';
+import { Public_Sans, Geist } from 'next/font/google';
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const publicSans = Public_Sans({ 
   subsets: ['latin'],
@@ -19,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={publicSans.variable}>
+    <html lang="pt-BR" className={cn("font-sans", geist.variable)}>
       <body className="font-display">
         {children}
       </body>

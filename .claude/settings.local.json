@@ -5,7 +5,16 @@
       "Read(//c/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/**)",
       "Bash(bash \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server/start-server.sh\" --project-dir \"C:/projects/PPA-LDO-LOA\")",
       "Bash(cd \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server\" && npm install --silent 2>&1 | tail -5)",
-      "Bash(cd \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server\" && npm install 2>&1 | tail -3 && echo \"DONE\")"
+      "Bash(cd \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server\" && npm install 2>&1 | tail -3 && echo \"DONE\")",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(git -C /c/projects/PPA-LDO-LOA diff .gitignore)",
+      "Bash(git add:*)",
+      "Bash(git -C /c/projects/PPA-LDO-LOA commit -m \"$\\(cat <<'EOF'\nchore: install dependencies and init Prisma\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(cd \"C:/projects/PPA-LDO-LOA\" && npm run test:run 2>&1)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npm run test:run)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npm run test:run 2>&1)",
+      "Bash(cd C:/projects/PPA-LDO-LOA && npx shadcn@latest init -d 2>&1)"
     ]
   }
 }
