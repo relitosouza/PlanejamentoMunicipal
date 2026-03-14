@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -10,4 +6,335 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+// ─── Tenant ──────────────────────────────────────────────────────────────────
+
+model Municipio {
+  id          String   @id @default(cuid())
+  cnpj        String   @unique
+  nome        String
+  uf          String
+  populacao   Int?
+  logoUrl     String?
+  criadoEm    DateTime @default(now())
+
+  usuarios              Usuario[]
+  secretarias           Secretaria[]
+  ppas                  PPA[]
+  ldos                  LDO[]
+  loas                  LOA[]
+  liquidacoesHistoricas LiquidacaoHistorica[]
+  importacoes           ImportacaoHistorico[]
+  aiAnalises            AiAnalise[]
+}
+
+model Secretaria {
+  id          String    @id @default(cuid())
+  municipioId String
+  nome        String
+  sigla       String
+  municipio   Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  programas   Programa[]
+}
+
+// ─── PPA ─────────────────────────────────────────────────────────────────────
+
+model PPA {
+  id           String    @id @default(cuid())
+  municipioId  String
+  anoInicio    Int
+  anoFim       Int
+  status       PPAStatus @default(RASCUNHO)
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+
+  municipio Municipio  @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  programas Programa[]
+  ldos      LDO[]
+}
+
+enum PPAStatus {
+  RASCUNHO
+  APROVADO
+  VIGENTE
+  ENCERRADO
+}
+
+model Programa {
+  id            String       @id @default(cuid())
+  ppaId         String
+  numero        String
+  nome          String
+  objetivo      String
+  justificativa String?
+  tipo          ProgramaTipo @default(FINALISTICO)
+  secretariaId  String
+  odsIds        Int[]
+  criadoEm      DateTime     @default(now())
+  atualizadoEm  DateTime     @updatedAt
+
+  ppa         PPA                   @relation(fields: [ppaId], references: [id], onDelete: Cascade)
+  secretaria  Secretaria            @relation(fields: [secretariaId], references: [id])
+  acoes       AcaoGoverno[]
+  indicadores IndicadorDesempenho[]
+
+  @@unique([ppaId, numero])
+}
+
+enum ProgramaTipo {
+  FINALISTICO
+  GESTAO
+}
+
+model AcaoGoverno {
+  id            String   @id @default(cuid())
+  programaId    String
+  codigo        String
+  nome          String
+  metaFisica    Decimal? @db.Decimal(15, 2)
+  unidadeMedida String?
+  tipo          AcaoTipo @default(ATIVIDADE)
+  criadoEm      DateTime @default(now())
+  atualizadoEm  DateTime @updatedAt
+
+  programa Programa  @relation(fields: [programaId], references: [id], onDelete: Cascade)
+  acoesLdo AcaoLDO[]
+
+  @@unique([programaId, codigo])
+}
+
+enum AcaoTipo {
+  ATIVIDADE
+  PROJETO
+  OPERACAO_ESPECIAL
+}
+
+model IndicadorDesempenho {
+  id            String   @id @default(cuid())
+  programaId    String
+  nome          String
+  unidade       String
+  valorBase     Decimal? @db.Decimal(15, 4)
+  valorMeta     Decimal  @db.Decimal(15, 4)
+  periodicidade String
+  fonte         String?
+  criadoEm      DateTime @default(now())
+
+  programa Programa @relation(fields: [programaId], references: [id], onDelete: Cascade)
+}
+
+// ─── LDO ─────────────────────────────────────────────────────────────────────
+
+model LDO {
+  id           String    @id @default(cuid())
+  municipioId  String
+  exercicio    Int
+  ppaId        String
+  status       LDOStatus @default(RASCUNHO)
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+
+  municipio Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  ppa       PPA       @relation(fields: [ppaId], references: [id])
+  acoes     AcaoLDO[]
+  loas      LOA[]
+
+  @@unique([municipioId, exercicio])
+}
+
+enum LDOStatus {
+  RASCUNHO
+  REVISAO
+  APROVADO
+  VIGENTE
+}
+
+model AcaoLDO {
+  id                      String        @id @default(cuid())
+  ldoId                   String
+  acaoGovernoId           String
+  metaAnual               Decimal?      @db.Decimal(15, 2)
+  justificativaPrioridade String?
+  status                  AcaoLDOStatus @default(NORMAL)
+  criadoEm                DateTime      @default(now())
+  atualizadoEm            DateTime      @updatedAt
+
+  ldo         LDO         @relation(fields: [ldoId], references: [id], onDelete: Cascade)
+  acaoGoverno AcaoGoverno @relation(fields: [acaoGovernoId], references: [id])
+  dotacoes    Dotacao[]
+
+  @@unique([ldoId, acaoGovernoId])
+}
+
+enum AcaoLDOStatus {
+  PRIORITARIA
+  NORMAL
+  SUSPENSA
+}
+
+// ─── LOA ─────────────────────────────────────────────────────────────────────
+
+model LOA {
+  id            String    @id @default(cuid())
+  municipioId   String
+  exercicio     Int
+  ldoId         String
+  totalReceita  Decimal   @db.Decimal(15, 2)
+  // totalDespesa is intentionally omitted — computed as Σ Dotacao.valor at query time to avoid denormalization
+  status        LOAStatus @default(RASCUNHO)
+  dataAprovacao DateTime?
+  criadoEm      DateTime  @default(now())
+  atualizadoEm  DateTime  @updatedAt
+
+  municipio Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  ldo       LDO       @relation(fields: [ldoId], references: [id])
+  dotacoes  Dotacao[]
+
+  @@unique([municipioId, exercicio])
+}
+
+enum LOAStatus {
+  RASCUNHO
+  REVISAO
+  APROVADO
+  VIGENTE
+}
+
+model Dotacao {
+  id                String   @id @default(cuid())
+  loaId             String
+  acaoLdoId         String
+  naturezaDespesaId String
+  fonteRecursoId    String
+  valor             Decimal  @db.Decimal(15, 2)
+  criadoEm          DateTime @default(now())
+  atualizadoEm      DateTime @updatedAt
+
+  loa             LOA             @relation(fields: [loaId], references: [id], onDelete: Cascade)
+  acaoLdo         AcaoLDO         @relation(fields: [acaoLdoId], references: [id])
+  naturezaDespesa NaturezaDespesa @relation(fields: [naturezaDespesaId], references: [id])
+  fonteRecurso    FonteRecurso    @relation(fields: [fonteRecursoId], references: [id])
+}
+
+// ─── Tabelas de referência ────────────────────────────────────────────────────
+
+model NaturezaDespesa {
+  id        String    @id @default(cuid())
+  codigo    String    @unique
+  descricao String
+  dotacoes  Dotacao[]
+}
+
+model FonteRecurso {
+  id        String    @id @default(cuid())
+  codigo    String    @unique
+  descricao String
+  dotacoes  Dotacao[]
+}
+
+// ─── Importação de histórico ──────────────────────────────────────────────────
+
+model ImportacaoHistorico {
+  id          String           @id @default(cuid())
+  municipioId String
+  exercicio   Int
+  nomeArquivo String
+  totalLinhas Int              @default(0)
+  status      ImportacaoStatus @default(PROCESSANDO)
+  erros       Json?
+  criadoEm    DateTime         @default(now())
+  usuarioId   String
+
+  municipio   Municipio             @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  usuario     Usuario               @relation(fields: [usuarioId], references: [id])
+  liquidacoes LiquidacaoHistorica[]
+}
+
+enum ImportacaoStatus {
+  PROCESSANDO
+  CONCLUIDO
+  ERRO
+}
+
+model LiquidacaoHistorica {
+  id              String   @id @default(cuid())
+  municipioId     String
+  exercicio       Int
+  codigoPrograma  String
+  codigoAcao      String
+  naturezaDespesa String
+  fonteRecurso    String?
+  secretaria      String?
+  valorLiquidado  Decimal  @db.Decimal(15, 2)
+  importacaoId    String
+  criadoEm        DateTime @default(now())
+
+  municipio  Municipio           @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  importacao ImportacaoHistorico @relation(fields: [importacaoId], references: [id])
+}
+
+// ─── IA ───────────────────────────────────────────────────────────────────────
+
+model AiAnalise {
+  id             String        @id @default(cuid())
+  municipioId    String
+  tipo           AiAnaliseTipo
+  contextoJson   Json
+  resultadoTexto String
+  modeloClaude   String
+  tokens         Int?
+  aprovadoPor    String?
+  aprovadoEm     DateTime?
+  criadoEm       DateTime      @default(now())
+
+  municipio          Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  aprovadoPorUsuario Usuario?  @relation(fields: [aprovadoPor], references: [id])
+}
+
+enum AiAnaliseTipo {
+  SUGESTAO_LOA
+  ADERENCIA_PPA
+  ALERTA_DESVIO
+  CLASSIFICACAO_MCASP
+}
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+model Usuario {
+  id          String   @id @default(cuid())
+  municipioId String
+  nome        String
+  email       String
+  senha       String
+  role        Role     @default(SERVIDOR)
+  ativo       Boolean  @default(true)
+  criadoEm    DateTime @default(now())
+
+  municipio   Municipio             @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  importacoes ImportacaoHistorico[]
+  aprovacoes  AiAnalise[]
+  auditLogs   AuditLog[]
+
+  @@unique([email, municipioId])
+}
+
+enum Role {
+  ADMIN
+  SERVIDOR
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  entidade   String
+  entidadeId String
+  acao       String
+  diff       Json?
+  usuarioId  String
+  criadoEm   DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+
+  @@index([entidade, entidadeId])
+  @@index([usuarioId])
 }
