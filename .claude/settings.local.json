@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/**)",
+      "Read(//c/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/**)",
+      "Bash(bash \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server/start-server.sh\" --project-dir \"C:/projects/PPA-LDO-LOA\")",
+      "Bash(cd \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server\" && npm install --silent 2>&1 | tail -5)",
+      "Bash(cd \"C:/Users/ricar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.0/lib/brainstorm-server\" && npm install 2>&1 | tail -3 && echo \"DONE\")"
+    ]
+  }
+}
