@@ -48,13 +48,21 @@ export default async function LdoDashboardPage({ params }: Props) {
   const nextStatus = STATUS_TRANSITIONS[ldo.status]
   const isAdmin = session.user.role === 'ADMIN'
 
-  const avancarStatusAction: (() => Promise<void>) | null = nextStatus
-    ? async () => { await atualizarStatusLDO(ldoId, nextStatus) }
+  const avancarStatusAction = nextStatus
+    ? atualizarStatusLDO.bind(null, ldoId, nextStatus)
     : null
-  const voltarRascunhoAction: (() => Promise<void>) | null =
+  const voltarRascunhoAction =
     ldo.status === 'REVISAO'
-      ? async () => { await atualizarStatusLDO(ldoId, 'RASCUNHO') }
+      ? atualizarStatusLDO.bind(null, ldoId, 'RASCUNHO')
       : null
+
+  // Wrapper for form action compatibility (form expects Promise<void>, action returns Result)
+  async function handleAvancarStatus() {
+    await avancarStatusAction?.()
+  }
+  async function handleVoltarRascunho() {
+    await voltarRascunhoAction?.()
+  }
 
   return (
     <>
@@ -69,7 +77,7 @@ export default async function LdoDashboardPage({ params }: Props) {
           <div className="ml-auto flex gap-2">
             <ImportarPpaButton ldoId={ldoId} disabled={ldo.status === 'VIGENTE'} />
             {isAdmin && avancarStatusAction && (
-              <form action={avancarStatusAction}>
+              <form action={handleAvancarStatus}>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90"
@@ -79,7 +87,7 @@ export default async function LdoDashboardPage({ params }: Props) {
               </form>
             )}
             {isAdmin && voltarRascunhoAction && (
-              <form action={voltarRascunhoAction}>
+              <form action={handleVoltarRascunho}>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 text-sm font-medium hover:bg-slate-50"
