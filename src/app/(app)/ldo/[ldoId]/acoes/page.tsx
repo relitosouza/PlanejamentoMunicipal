@@ -65,7 +65,7 @@ export default async function LdoAcoesPage({ params }: Props) {
             <tbody className="divide-y divide-slate-100">
               {ldo.acoes.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={readOnly ? 5 : 6} className="px-4 py-8 text-center text-slate-400">
                     Nenhuma ação. Clique em &quot;Importar Ações do PPA&quot; para começar.
                   </td>
                 </tr>

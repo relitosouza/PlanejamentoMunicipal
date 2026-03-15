@@ -40,21 +40,13 @@ export default async function LdoDashboardPage({ params }: Props) {
   if (!ldo) notFound()
 
   const [totalAcoes, prioritarias, suspensas] = await Promise.all([
-    prisma.acaoLDO.count({ where: { ldoId } }),
-    prisma.acaoLDO.count({ where: { ldoId, status: 'PRIORITARIA' } }),
-    prisma.acaoLDO.count({ where: { ldoId, status: 'SUSPENSA' } }),
+    prisma.acaoLDO.count({ where: { ldoId, ldo: { municipioId: session.user.municipioId } } }),
+    prisma.acaoLDO.count({ where: { ldoId, status: 'PRIORITARIA', ldo: { municipioId: session.user.municipioId } } }),
+    prisma.acaoLDO.count({ where: { ldoId, status: 'SUSPENSA', ldo: { municipioId: session.user.municipioId } } }),
   ])
 
   const nextStatus = STATUS_TRANSITIONS[ldo.status]
   const isAdmin = session.user.role === 'ADMIN'
-
-  const avancarStatusAction = nextStatus
-    ? atualizarStatusLDO.bind(null, ldoId, nextStatus)
-    : null
-  const voltarRascunhoAction =
-    ldo.status === 'REVISAO'
-      ? atualizarStatusLDO.bind(null, ldoId, 'RASCUNHO')
-      : null
 
   return (
     <>
@@ -68,9 +60,13 @@ export default async function LdoDashboardPage({ params }: Props) {
           </span>
           <div className="ml-auto flex gap-2">
             <ImportarPpaButton ldoId={ldoId} disabled={ldo.status === 'VIGENTE'} />
-            {isAdmin && avancarStatusAction && (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              <form action={avancarStatusAction as any}>
+            {isAdmin && nextStatus && (
+              <form
+                action={async () => {
+                  'use server'
+                  await atualizarStatusLDO(ldoId, nextStatus)
+                }}
+              >
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90"
@@ -79,9 +75,13 @@ export default async function LdoDashboardPage({ params }: Props) {
                 </button>
               </form>
             )}
-            {isAdmin && voltarRascunhoAction && (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              <form action={voltarRascunhoAction as any}>
+            {isAdmin && ldo.status === 'REVISAO' && (
+              <form
+                action={async () => {
+                  'use server'
+                  await atualizarStatusLDO(ldoId, 'RASCUNHO')
+                }}
+              >
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 text-sm font-medium hover:bg-slate-50"
