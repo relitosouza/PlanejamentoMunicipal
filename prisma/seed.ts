@@ -1,10 +1,8 @@
 // prisma/seed.ts
-import { PrismaClient } from '../src/generated/prisma'
-import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
-const prisma = new PrismaClient({ adapter })
+const prisma = new PrismaClient()
 
 const naturezasDespesa = [
   { codigo: '3.3.90.30', descricao: 'Material de Consumo' },
@@ -33,7 +31,7 @@ const odsData = [
   { id: 5, titulo: 'Igualdade de Gênero', descricao: 'Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas' },
   { id: 6, titulo: 'Água Potável e Saneamento', descricao: 'Assegurar a disponibilidade e gestão sustentável da água e saneamento para todos' },
   { id: 7, titulo: 'Energia Limpa e Acessível', descricao: 'Assegurar o acesso confiável, sustentável, moderno e a preço acessível à energia, para todos' },
-  { id: 8, titulo: 'Trabalho Decente e Crescimento Econômico', descricao: 'Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo, e trabalho decente para todos' },
+  { id: 8, titulo: 'Trabalho Decente e Cresstwa Econômico', descricao: 'Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo, e trabalho decente para todos' },
   { id: 9, titulo: 'Indústria, Inovação e Infraestrutura', descricao: 'Construir infraestruturas resilientes, promover a industrialização inclusiva e sustentável e fomentar a inovação' },
   { id: 10, titulo: 'Redução das Desigualdades', descricao: 'Reduzir a desigualdade dentro dos países e entre eles' },
   { id: 11, titulo: 'Cidades e Comunidades Sustentáveis', descricao: 'Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis' },
