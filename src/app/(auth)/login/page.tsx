@@ -1,35 +1,11 @@
 // src/app/(auth)/login/page.tsx
-'use client'
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { getMunicipios } from './actions'
+import { LoginForm } from './login-form'
 
-export default function LoginPage() {
-  const router = useRouter()
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+export const dynamic = 'force-dynamic'
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    const fd = new FormData(e.currentTarget)
-    const result = await signIn('credentials', {
-      email: fd.get('email'),
-      senha: fd.get('senha'),
-      municipioId: fd.get('municipioId'),
-      redirect: false,
-    })
-    setLoading(false)
-    if (result?.error) {
-      setError('E-mail, senha ou município inválidos.')
-    } else {
-      router.push('/dashboard')
-    }
-  }
+export default async function LoginPage() {
+  const municipios = await getMunicipios()
 
   return (
     <div className="min-h-screen bg-background-light flex items-center justify-center p-4">
@@ -44,24 +20,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="municipioId">Código do Município</Label>
-            <Input id="municipioId" name="municipioId" placeholder="ID do município" required className="mt-1" />
-          </div>
-          <div>
-            <Label htmlFor="email">E-mail</Label>
-            <Input id="email" name="email" type="email" placeholder="usuario@prefeitura.sp.gov.br" required className="mt-1" />
-          </div>
-          <div>
-            <Label htmlFor="senha">Senha</Label>
-            <Input id="senha" name="senha" type="password" required className="mt-1" />
-          </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
-          </Button>
-        </form>
+        {municipios.length === 0 ? (
+          <p className="text-sm text-slate-500 text-center py-4">
+            Nenhum município cadastrado. Execute o seed do banco de dados primeiro.
+          </p>
+        ) : (
+          <LoginForm municipios={municipios} />
+        )}
       </div>
     </div>
   )

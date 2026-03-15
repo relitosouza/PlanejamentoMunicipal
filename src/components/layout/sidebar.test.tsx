@@ -14,14 +14,13 @@ vi.mock('next-auth/react', () => ({
 describe('Sidebar', () => {
   it('renders all main nav sections', () => {
     render(<Sidebar municipioNome="Prefeitura Teste" usuarioNome="João" />)
-    expect(screen.getByText('Planejamento')).toBeTruthy()
-    expect(screen.getByText('Orçamento')).toBeTruthy()
-    expect(screen.getByText('Inteligência')).toBeTruthy()
+    expect(screen.getByText('MENU PRINCIPAL')).toBeTruthy()
+    expect(screen.getByText('FERRAMENTAS')).toBeTruthy()
   })
 
   it('highlights active route', () => {
     render(<Sidebar municipioNome="Prefeitura Teste" usuarioNome="João" />)
-    const ppaLink = screen.getByText('PPA').closest('a')
+    const ppaLink = screen.getByText('PPA — Plano Plurianual').closest('a')
     expect(ppaLink?.className).toContain('bg-primary')
   })
 })

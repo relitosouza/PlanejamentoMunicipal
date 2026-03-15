@@ -233,6 +233,20 @@ model FonteRecurso {
   dotacoes  Dotacao[]
 }
 
+model ODS {
+  id        Int       @id
+  titulo    String
+  descricao String
+  metas     ODSMeta[]
+}
+
+model ODSMeta {
+  id        Int    @id
+  odsId     Int
+  ods       ODS    @relation(fields: [odsId], references: [id])
+  descricao String
+}
+
 // ─── Importação de histórico ──────────────────────────────────────────────────
 
 model ImportacaoHistorico {

@@ -114,20 +114,34 @@ export default async function LdoDashboardPage({ params }: Props) {
             className="bg-white rounded-xl border border-slate-200 p-6 hover:border-primary transition-colors block"
           >
             <span className="material-symbols-outlined text-primary text-2xl">list_alt</span>
-            <h3 className="font-semibold mt-2">Definição de Prioridades</h3>
+            <h3 className="font-semibold mt-2">Prioridades de Metas</h3>
             <p className="text-sm text-slate-500 mt-1">
-              Configure o status, meta anual e justificativa de cada ação.
+              Seleção das ações prioritárias e definição das metas físicas para o exercício.
+            </p>
+          </Link>
+          <Link
+            href={`/ldo/${ldoId}/metas-fiscais`}
+            className="bg-white rounded-xl border border-slate-200 p-6 hover:border-primary transition-colors block"
+          >
+            <span className="material-symbols-outlined text-primary text-2xl">analytics</span>
+            <h3 className="font-semibold mt-2">Anexo de Metas Fiscais</h3>
+            <p className="text-sm text-slate-500 mt-1">
+              Demonstrativo das metas anuais, avaliação do cumprimento e evolução do patrimônio.
             </p>
           </Link>
           <Link
             href={`/ppa/${ldo.ppaId}`}
-            className="bg-white rounded-xl border border-slate-200 p-6 hover:border-primary transition-colors block"
+            className="bg-white rounded-xl border border-slate-200 p-6 hover:border-primary transition-colors block col-span-2"
           >
-            <span className="material-symbols-outlined text-primary text-2xl">account_tree</span>
-            <h3 className="font-semibold mt-2">Ver PPA Vinculado</h3>
-            <p className="text-sm text-slate-500 mt-1">
-              PPA {ldo.ppa.anoInicio}–{ldo.ppa.anoFim}
-            </p>
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-slate-400">account_tree</span>
+              <div>
+                <h3 className="font-semibold text-slate-700">Ver PPA Vinculado</h3>
+                <p className="text-xs text-slate-500">
+                  PPA {ldo.ppa.anoInicio}–{ldo.ppa.anoFim}
+                </p>
+              </div>
+            </div>
           </Link>
         </div>
       </div>

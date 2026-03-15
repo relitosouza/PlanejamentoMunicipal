@@ -13,7 +13,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         municipioNome={session.user.municipioNome}
         usuarioNome={session.user.name ?? ''}
       />
-      <main className="flex-1 ml-72">
+      <main className="flex-1 ml-80">
         {children}
       </main>
     </div>

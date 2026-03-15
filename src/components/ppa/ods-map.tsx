@@ -39,7 +39,7 @@ export function OdsMap({ programas }: OdsMapProps) {
             <div
               key={ods.numero}
               data-testid={`ods-cell-${ods.numero}`}
-              title={`ODS ${ods.numero}: ${ods.titulo}${linkedProgramas.length > 0 ? '\n' + linkedProgramas.map(p => p.nome).join(', ') : ''}`}
+              title={`ODS ${ods.numero}: ${ods.titulo}\n${ods.descricao}${linkedProgramas.length > 0 ? '\n\nProgramas:\n' + linkedProgramas.map(p => p.nome).join(', ') : ''}`}
               className={`rounded-xl p-3 text-center transition-all ${
                 covered
                   ? 'bg-primary text-white shadow-sm'
