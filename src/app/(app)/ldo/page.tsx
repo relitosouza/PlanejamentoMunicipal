@@ -42,11 +42,9 @@ export default async function LDOPage() {
         <div className="flex items-center justify-between">
           <p className="text-slate-500">{ldos.length} LDO(s) cadastrada(s)</p>
           <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-primary hover:bg-primary/90">
-                <span className="material-symbols-outlined text-[18px] mr-2">add</span>
-                Nova LDO
-              </Button>
+            <DialogTrigger render={<Button className="bg-primary hover:bg-primary/90" />}>
+              <span className="material-symbols-outlined text-[18px] mr-2">add</span>
+              Nova LDO
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
