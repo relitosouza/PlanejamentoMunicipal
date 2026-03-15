@@ -56,14 +56,6 @@ export default async function LdoDashboardPage({ params }: Props) {
       ? atualizarStatusLDO.bind(null, ldoId, 'RASCUNHO')
       : null
 
-  // Wrapper for form action compatibility (form expects Promise<void>, action returns Result)
-  async function handleAvancarStatus() {
-    await avancarStatusAction?.()
-  }
-  async function handleVoltarRascunho() {
-    await voltarRascunhoAction?.()
-  }
-
   return (
     <>
       <Header title={`LDO ${ldo.exercicio}`} />
@@ -77,7 +69,8 @@ export default async function LdoDashboardPage({ params }: Props) {
           <div className="ml-auto flex gap-2">
             <ImportarPpaButton ldoId={ldoId} disabled={ldo.status === 'VIGENTE'} />
             {isAdmin && avancarStatusAction && (
-              <form action={handleAvancarStatus}>
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              <form action={avancarStatusAction as any}>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90"
@@ -87,7 +80,8 @@ export default async function LdoDashboardPage({ params }: Props) {
               </form>
             )}
             {isAdmin && voltarRascunhoAction && (
-              <form action={handleVoltarRascunho}>
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              <form action={voltarRascunhoAction as any}>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 text-sm font-medium hover:bg-slate-50"
