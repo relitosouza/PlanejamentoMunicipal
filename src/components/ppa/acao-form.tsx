@@ -101,6 +101,7 @@ export function AcaoRow({ acao }: AcaoRowProps) {
   const router = useRouter()
 
   function handleDelete() {
+    if (!window.confirm('Excluir esta ação? Esta operação não pode ser desfeita.')) return
     startTransition(async () => { await excluirAcao(acao.id); router.refresh() })
   }
 

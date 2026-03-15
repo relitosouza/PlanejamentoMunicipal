@@ -40,7 +40,7 @@ export async function criarPPA(input: PpaInput): Promise<Result<{ id: string }>>
 
 const STATUS_TRANSITIONS: Record<PPAStatus, PPAStatus[]> = {
   RASCUNHO: ['APROVADO'],
-  APROVADO: ['VIGENTE', 'RASCUNHO'],
+  APROVADO: ['VIGENTE'],  // removed RASCUNHO — approval is one-way
   VIGENTE: ['ENCERRADO'],
   ENCERRADO: [],
 }
@@ -51,6 +51,7 @@ export async function atualizarStatusPPA(
 ): Promise<Result> {
   const session = await auth()
   if (!session) return { error: 'Não autenticado' }
+  if (session.user.role !== 'ADMIN') return { error: 'Apenas administradores podem alterar o status do PPA' }
 
   const ppa = await prisma.pPA.findFirst({
     where: { id: ppaId, municipioId: session.user.municipioId },
@@ -62,7 +63,7 @@ export async function atualizarStatusPPA(
     return { error: `Transição ${ppa.status} → ${novoStatus} não permitida` }
   }
 
-  await prisma.pPA.update({ where: { id: ppaId }, data: { status: novoStatus } })
+  await prisma.pPA.update({ where: { id: ppaId, municipioId: session.user.municipioId }, data: { status: novoStatus } })
   revalidatePath(`/ppa`)
   revalidatePath(`/ppa/${ppaId}`)
   return {}

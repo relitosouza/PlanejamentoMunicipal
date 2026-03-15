@@ -110,6 +110,7 @@ export function IndicadorRow({ indicador }: IndicadorRowProps) {
   const router = useRouter()
 
   function handleDelete() {
+    if (!window.confirm('Excluir este indicador? Esta operação não pode ser desfeita.')) return
     startTransition(async () => { await excluirIndicador(indicador.id); router.refresh() })
   }
 
