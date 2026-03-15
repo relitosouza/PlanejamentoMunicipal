@@ -8,7 +8,7 @@ function createPrismaClient() {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false } // Required for Supabase in some environments
   })
-  const adapter = new PrismaPg(pool)
+  const adapter = new PrismaPg(pool as any)
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
