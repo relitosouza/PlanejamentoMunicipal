@@ -7,6 +7,8 @@ import { ODS_LIST } from '@/lib/ods'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { excluirPrograma } from '../_actions'
+import { AcaoForm, AcaoRow } from '@/components/ppa/acao-form'
+import { IndicadorForm, IndicadorRow } from '@/components/ppa/indicador-form'
 
 export default async function ProgramaDetailPage({
   params,
@@ -113,56 +115,38 @@ export default async function ProgramaDetailPage({
           )}
         </div>
 
-        {/* Ações section — placeholder for Task 8 */}
+        {/* Ações section */}
         <div>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
               Ações de Governo ({programa.acoes.length})
             </h3>
           </div>
-          {programa.acoes.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-slate-200 p-8 text-center">
-              <p className="text-slate-400 text-sm">Nenhuma ação cadastrada — componente de formulário em Task 8</p>
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
+          {programa.acoes.length > 0 && (
+            <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100 mb-3">
               {programa.acoes.map((acao) => (
-                <div key={acao.id} className="flex items-center justify-between px-5 py-3">
-                  <div>
-                    <span className="font-mono text-xs text-slate-400 mr-3">{acao.codigo}</span>
-                    <span className="text-sm font-medium text-slate-700">{acao.nome}</span>
-                  </div>
-                  <span className="text-xs text-slate-400">{acao.tipo}</span>
-                </div>
+                <AcaoRow key={acao.id} acao={acao} />
               ))}
             </div>
           )}
+          <AcaoForm programaId={programaId} />
         </div>
 
-        {/* Indicadores section — placeholder for Task 8 */}
+        {/* Indicadores section */}
         <div>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
               Indicadores de Desempenho ({programa.indicadores.length})
             </h3>
           </div>
-          {programa.indicadores.length === 0 ? (
-            <div className="bg-white rounded-xl border border-dashed border-slate-200 p-8 text-center">
-              <p className="text-slate-400 text-sm">Nenhum indicador cadastrado — componente de formulário em Task 8</p>
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
+          {programa.indicadores.length > 0 && (
+            <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100 mb-3">
               {programa.indicadores.map((ind) => (
-                <div key={ind.id} className="flex items-center justify-between px-5 py-3">
-                  <span className="text-sm font-medium text-slate-700">{ind.nome}</span>
-                  <div className="text-xs text-slate-400 text-right">
-                    <span>Meta: {String(ind.valorMeta)} {ind.unidade}</span>
-                    <span className="ml-3">{ind.periodicidade}</span>
-                  </div>
-                </div>
+                <IndicadorRow key={ind.id} indicador={ind} />
               ))}
             </div>
           )}
+          <IndicadorForm programaId={programaId} />
         </div>
       </div>
     </>
