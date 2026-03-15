@@ -21,7 +21,7 @@ export async function criarPrograma(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = programaSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   try {
     await assertPpaOwnership(ppaId, session.user.municipioId)
@@ -50,7 +50,7 @@ export async function editarPrograma(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = programaSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   const programa = await prisma.programa.findFirst({
     where: { id: programaId },

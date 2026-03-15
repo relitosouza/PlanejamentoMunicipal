@@ -26,7 +26,7 @@ export async function criarIndicador(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = indicadorDesempenhoSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   let programaPpaId: string
   try {
@@ -52,7 +52,7 @@ export async function editarIndicador(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = indicadorDesempenhoSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   const indicador = await prisma.indicadorDesempenho.findFirst({
     where: { id: indicadorId },

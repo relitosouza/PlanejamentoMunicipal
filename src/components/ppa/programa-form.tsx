@@ -39,8 +39,8 @@ export function ProgramaForm({
   const [isPending, startTransition] = useTransition()
   const [serverError, setServerError] = useState('')
 
-  const form = useForm<ProgramaInput>({
-    resolver: zodResolver(programaSchema),
+  const form = useForm<ProgramaInput, unknown, ProgramaInput>({
+    resolver: zodResolver(programaSchema) as never,
     defaultValues: {
       numero: '',
       nome: '',

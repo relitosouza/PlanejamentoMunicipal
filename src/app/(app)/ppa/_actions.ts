@@ -13,7 +13,7 @@ export async function criarPPA(input: PpaInput): Promise<Result<{ id: string }>>
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = ppaSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   // Ensure no other VIGENTE PPA overlaps (business rule)
   const conflito = await prisma.pPA.findFirst({

@@ -26,7 +26,7 @@ export async function criarAcao(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = acaoGovernoSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   let programaPpaId: string
   try {
@@ -57,7 +57,7 @@ export async function editarAcao(
   if (!session) return { error: 'Não autenticado' }
 
   const parsed = acaoGovernoSchema.safeParse(input)
-  if (!parsed.success) return { error: parsed.error.errors[0].message }
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
   const acao = await prisma.acaoGoverno.findFirst({
     where: { id: acaoId },

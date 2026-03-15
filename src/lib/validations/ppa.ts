@@ -23,7 +23,7 @@ export const programaSchema = z.object({
   odsIds: z.array(z.number().int().min(1).max(17)).default([]),
 })
 
-export type ProgramaInput = z.infer<typeof programaSchema>
+export type ProgramaInput = z.output<typeof programaSchema>
 
 export const acaoGovernoSchema = z.object({
   codigo: z.string().min(1, 'Obrigatório').max(20),
@@ -41,7 +41,7 @@ export const indicadorDesempenhoSchema = z.object({
   nome: z.string().min(3, 'Mínimo 3 caracteres').max(200),
   unidade: z.string().min(1, 'Obrigatório').max(50),
   valorBase: z.number().optional().nullable(),
-  valorMeta: z.number({ required_error: 'Valor meta é obrigatório' }),
+  valorMeta: z.number({ error: 'Valor meta é obrigatório' }),
   periodicidade: z.enum(PERIODICIDADE),
   fonte: z.string().max(200).optional(),
 })
