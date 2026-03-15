@@ -1,6 +1,7 @@
 // prisma/seed.ts
 import { PrismaClient } from '../src/generated/prisma'
 import { PrismaPg } from '@prisma/adapter-pg'
+import bcrypt from 'bcryptjs'
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
@@ -42,6 +43,51 @@ async function main() {
       create: fr,
     })
   }
+
+  console.log('Seeding dev Municipio...')
+  const municipio = await prisma.municipio.upsert({
+    where: { cnpj: '00.000.000/0001-00' },
+    update: {},
+    create: {
+      cnpj: '00.000.000/0001-00',
+      nome: 'Município Demonstração',
+      uf: 'SP',
+      populacao: 50000,
+    },
+  })
+
+  console.log('Seeding dev Secretarias...')
+  const secretarias = [
+    { nome: 'Secretaria de Educação', sigla: 'SEDU' },
+    { nome: 'Secretaria de Saúde', sigla: 'SESAU' },
+    { nome: 'Secretaria de Obras', sigla: 'SEOB' },
+    { nome: 'Secretaria de Administração', sigla: 'SEAD' },
+    { nome: 'Secretaria de Finanças', sigla: 'SEFIN' },
+  ]
+  for (const s of secretarias) {
+    const existing = await prisma.secretaria.findFirst({
+      where: { municipioId: municipio.id, sigla: s.sigla },
+    })
+    if (!existing) {
+      await prisma.secretaria.create({ data: { municipioId: municipio.id, ...s } })
+    }
+  }
+
+  console.log('Seeding dev Usuario admin...')
+  const senha = await bcrypt.hash('admin123', 10)
+  await prisma.usuario.upsert({
+    where: { email_municipioId: { email: 'admin@demo.sp.gov.br', municipioId: municipio.id } },
+    update: {},
+    create: {
+      municipioId: municipio.id,
+      nome: 'Administrador',
+      email: 'admin@demo.sp.gov.br',
+      senha,
+      role: 'ADMIN',
+    },
+  })
+  console.log('Dev credentials: admin@demo.sp.gov.br / admin123')
+  console.log(`Municipio ID: ${municipio.id}`)
 
   console.log('Seed complete.')
 }
