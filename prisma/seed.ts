@@ -1,7 +1,9 @@
 // prisma/seed.ts
 import { PrismaClient } from '../src/generated/prisma'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-const prisma = new PrismaClient({} as any)
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+const prisma = new PrismaClient({ adapter })
 
 const naturezasDespesa = [
   { codigo: '3.3.90.30', descricao: 'Material de Consumo' },
