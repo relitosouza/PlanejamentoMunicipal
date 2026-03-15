@@ -11,7 +11,7 @@ export const ACAO_LDO_STATUS = ['PRIORITARIA', 'NORMAL', 'SUSPENSA'] as const
 
 export const acaoLdoSchema = z.object({
   status: z.enum(ACAO_LDO_STATUS),
-  metaAnual: z.number().positive().optional().nullable(),
+  metaAnual: z.number().nonnegative().optional().nullable(),
   justificativaPrioridade: z.string().max(500).optional(),
 })
 

@@ -119,6 +119,7 @@ export function AcaoLdoRow({ acao, updateAction, deleteAction, readOnly }: Props
         </td>
         <td className="px-4 py-2">
           <Input
+            aria-label="Meta Anual"
             type="number"
             step="0.01"
             min="0"
@@ -129,7 +130,7 @@ export function AcaoLdoRow({ acao, updateAction, deleteAction, readOnly }: Props
           />
         </td>
         <td className="px-4 py-2">
-          <Textarea rows={2} className="min-w-48" {...form.register('justificativaPrioridade')} />
+          <Textarea aria-label="Justificativa" rows={2} className="min-w-48" {...form.register('justificativaPrioridade')} />
           {serverError && <p className="text-xs text-red-600 mt-1">{serverError}</p>}
         </td>
         <td className="px-4 py-2 whitespace-nowrap space-x-2">
