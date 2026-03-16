@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/header'
 import { LoaStatusBadge } from '@/components/loa/status-badge'
 import { atualizarStatusLOA } from '../_actions'
 import Link from 'next/link'
-import type { LOAStatus } from '@/generated/prisma'
+import type { LOAStatus } from '@prisma/client'
 
 const STATUS_TRANSITIONS: Record<LOAStatus, LOAStatus | null> = {
   RASCUNHO: 'REVISAO',

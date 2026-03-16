@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { loaSchema, type LoaInput } from '@/lib/validations/loa'
 import { revalidatePath } from 'next/cache'
-import type { LOAStatus } from '@/generated/prisma'
+import type { LOAStatus } from '@prisma/client'
 
 type Result<T = void> = { data?: T; error?: string }
 

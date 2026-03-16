@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { AcaoLdoStatusBadge } from './status-badge'
-import type { AcaoLDOStatus } from '@/generated/prisma'
+import type { AcaoLDOStatus } from '@prisma/client'
 
 const STATUS_LABELS: Record<AcaoLDOStatus, string> = {
   PRIORITARIA: 'Prioritária',

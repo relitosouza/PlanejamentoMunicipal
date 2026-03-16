@@ -6,7 +6,7 @@ import { StatusBadge } from '@/components/ppa/status-badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { atualizarStatusPPA } from '../_actions'
-import type { PPAStatus } from '@/generated/prisma'
+import type { PPAStatus } from '@prisma/client'
 
 const NEXT_STATUS: Partial<Record<PPAStatus, { label: string; next: PPAStatus }>> = {
   RASCUNHO: { label: 'Enviar para Aprovação', next: 'APROVADO' },

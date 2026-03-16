@@ -6,7 +6,7 @@ import { LdoStatusBadge } from '@/components/ldo/status-badge'
 import { ImportarPpaButton } from '@/components/ldo/importar-ppa-button'
 import { atualizarStatusLDO } from '../_actions'
 import Link from 'next/link'
-import type { LDOStatus } from '@/generated/prisma'
+import type { LDOStatus } from '@prisma/client'
 
 const STATUS_TRANSITIONS: Record<LDOStatus, LDOStatus | null> = {
   RASCUNHO: 'REVISAO',

@@ -1,4 +1,4 @@
-import type { PPAStatus } from '@/generated/prisma'
+import type { PPAStatus } from '@prisma/client'
 
 const STATUS_LABELS: Record<PPAStatus, string> = {
   RASCUNHO: 'Rascunho',

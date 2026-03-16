@@ -1,4 +1,4 @@
-import type { LOAStatus } from '@/generated/prisma'
+import type { LOAStatus } from '@prisma/client'
 
 const LOA_STATUS_STYLES: Record<LOAStatus, string> = {
   RASCUNHO: 'bg-slate-100 text-slate-700',

@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { ppaSchema, type PpaInput } from '@/lib/validations/ppa'
 import { revalidatePath } from 'next/cache'
-import type { PPAStatus } from '@/generated/prisma'
+import type { PPAStatus } from '@prisma/client'
 
 type Result<T = void> = { data?: T; error?: string }
 

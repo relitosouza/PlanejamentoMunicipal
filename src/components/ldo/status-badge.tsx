@@ -1,4 +1,4 @@
-import type { LDOStatus, AcaoLDOStatus } from '@/generated/prisma'
+import type { LDOStatus, AcaoLDOStatus } from '@prisma/client'
 
 const LDO_STATUS_STYLES: Record<LDOStatus, string> = {
   RASCUNHO: 'bg-slate-100 text-slate-700',
