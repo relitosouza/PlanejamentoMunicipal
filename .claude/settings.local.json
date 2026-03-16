@@ -84,7 +84,11 @@
       "Bash(ls /c/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/ppa/)",
       "Bash(ls C:/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/ldo/[ldoId]/ 2>/dev/null)",
       "Bash(ls C:/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/ldo/[ldoId]/acoes/ 2>/dev/null)",
-      "Bash(ls C:/projects/PPA-LDO-LOA/src/lib/validations/ && ls C:/projects/PPA-LDO-LOA/src/components/ && ls C:/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/loa/)"
+      "Bash(ls C:/projects/PPA-LDO-LOA/src/lib/validations/ && ls C:/projects/PPA-LDO-LOA/src/components/ && ls C:/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/loa/)",
+      "Bash(git push:*)",
+      "Bash(npx vercel logs:*)",
+      "Bash(npx vercel link:*)",
+      "Bash(npx vercel inspect:*)"
     ]
   }
 }

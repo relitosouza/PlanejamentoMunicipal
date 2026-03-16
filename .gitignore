@@ -8,3 +8,4 @@ node_modules/
 .superpowers/
 
 /src/generated/prisma
+.vercel
