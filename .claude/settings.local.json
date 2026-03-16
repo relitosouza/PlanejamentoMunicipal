@@ -88,7 +88,8 @@
       "Bash(git push:*)",
       "Bash(npx vercel logs:*)",
       "Bash(npx vercel link:*)",
-      "Bash(npx vercel inspect:*)"
+      "Bash(npx vercel inspect:*)",
+      "WebFetch(domain:www.prisma.io)"
     ]
   }
 }
