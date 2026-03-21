@@ -833,7 +833,7 @@ git commit -m "feat: import PPA/LDO server actions"
 
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { parseLiquidacoesXml } from '@/lib/parsers/xml-audesp'
+import { parseLiquidacoesXmlAsync } from '@/lib/parsers/xml-audesp'
 import { parseLiquidacoesExcel, detectarColunas, type ColumnMap } from '@/lib/parsers/excel-liquidacoes'
 import { importHistoricoSchema } from '@/lib/validations/importacao'
 import { revalidatePath } from 'next/cache'
@@ -878,7 +878,7 @@ export async function importarHistoricoXml(formData: FormData): Promise<{ ok: bo
 
   try {
     const text = await arquivo.text()
-    const data = parseLiquidacoesXml(text)
+    const data = await parseLiquidacoesXmlAsync(text)
 
     const municipioId = session.user.municipioId
     const importacao = await prisma.importacaoHistorico.create({
@@ -979,7 +979,7 @@ git commit -m "feat: import histórico server actions (XML + Excel)"
 
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { parseLiquidacoesXml } from '@/lib/parsers/xml-audesp'
+import { parseLiquidacoesXmlAsync } from '@/lib/parsers/xml-audesp'
 import { parseLiquidacoesExcel, type ColumnMap } from '@/lib/parsers/excel-liquidacoes'
 import { importExecucaoMensalSchema } from '@/lib/validations/importacao'
 import { revalidatePath } from 'next/cache'
@@ -1002,7 +1002,7 @@ export async function importarExecucaoMensalXml(
 
   try {
     const text = await arquivo.text()
-    const data = parseLiquidacoesXml(text)
+    const data = await parseLiquidacoesXmlAsync(text)
 
     const municipioId = session.user.municipioId
     const importacao = await prisma.importacaoHistorico.create({
@@ -2744,7 +2744,17 @@ const exercicios = loasVigentes.map((l) => l.exercicio)
 In `sidebar.tsx`, update `SidebarProps` to accept `exercicios: number[]` and build the EXECUÇÃO group dynamically:
 
 ```tsx
-// Replace static navItems with function that builds items:
+// 1. Update SidebarProps to accept exercicios (optional, defaults to []):
+interface SidebarProps {
+  municipioNome: string
+  usuarioNome: string
+  role?: string
+  exercicios?: number[]  // list of LOA exercício years with status VIGENTE or APROVADO
+}
+
+export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal', exercicios = [] }: SidebarProps) {
+
+// 2. Replace static navItems with function that builds items:
 function buildNavItems(exercicios: number[]) {
   const execItems = exercicios.length > 0
     ? exercicios.flatMap((ano) => [
