@@ -1,5 +1,4 @@
 import * as XLSX from 'xlsx'
-import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -58,9 +57,9 @@ export async function GET() {
   ]
   XLSX.utils.book_append_sheet(wb, wsInd, 'Indicadores')
 
-  const buf: Buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+  const buf: Uint8Array = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
 
-  return new NextResponse(buf, {
+  return new Response(buf, {
     status: 200,
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
