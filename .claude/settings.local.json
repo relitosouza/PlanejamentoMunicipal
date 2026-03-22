@@ -89,7 +89,26 @@
       "Bash(npx vercel logs:*)",
       "Bash(npx vercel link:*)",
       "Bash(npx vercel inspect:*)",
-      "WebFetch(domain:www.prisma.io)"
+      "WebFetch(domain:www.prisma.io)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate dev --name execucao-orcamentaria)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate dev --name execucao-orcamentaria --force-reset)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate reset)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate reset --force)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate dev --name execucao-orcamentaria --create-only)",
+      "Bash(DIRECT_URL=\"postgresql://postgres:Ricotiy9hopk9z@db.ajuybhrkawxeyoqrsqpp.supabase.co:5432/postgres\" npx prisma migrate resolve --applied 20260315161143_init)",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ls /c/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\\\\\(app\\\\\\)/execucao/)",
+      "Bash(ls /c/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\\\\\(app\\\\\\)/importacao/planejamento/)",
+      "Bash(ls /c/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\\\\\(app\\\\\\)/importacao/historico/)",
+      "Bash(ls /c/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\\\\\(app\\\\\\)/importacao/execucao-mensal/)",
+      "Bash(find \"C:/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\(app\\)/execucao\" -type f)",
+      "Bash(mkdir -p \"C:/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\(app\\)/execucao/[ano]/dashboard\")",
+      "Bash(mkdir -p \"C:/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\(app\\)/execucao/[ano]/alertas\")",
+      "Bash(mkdir -p \"C:/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\(app\\)/execucao/[ano]/loa-proposta\")",
+      "Bash(ls src/app/\\\\\\(app\\\\\\)/)",
+      "Bash(gh pr:*)",
+      "Bash(vercel:*)"
     ]
   }
 }
