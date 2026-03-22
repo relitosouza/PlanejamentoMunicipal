@@ -26,6 +26,7 @@ model Municipio {
   liquidacoesHistoricas LiquidacaoHistorica[]
   importacoes           ImportacaoHistorico[]
   aiAnalises            AiAnalise[]
+  execucoesMensais      ExecucaoMensal[]
 }
 
 model Secretaria {
@@ -186,9 +187,11 @@ model LOA {
   criadoEm      DateTime  @default(now())
   atualizadoEm  DateTime  @updatedAt
 
-  municipio Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
-  ldo       LDO       @relation(fields: [ldoId], references: [id])
-  dotacoes  Dotacao[]
+  municipio        Municipio        @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  ldo              LDO              @relation(fields: [ldoId], references: [id])
+  dotacoes         Dotacao[]
+  execucoesMensais ExecucaoMensal[]
+  aiAnalises       AiAnalise[]
 
   @@unique([municipioId, exercicio])
 }
@@ -248,6 +251,11 @@ model ODSMeta {
 
 // ─── Importação de histórico ──────────────────────────────────────────────────
 
+enum ImportacaoTipo {
+  HISTORICO
+  EXECUCAO_MENSAL
+}
+
 model ImportacaoHistorico {
   id          String           @id @default(cuid())
   municipioId String
@@ -255,13 +263,15 @@ model ImportacaoHistorico {
   nomeArquivo String
   totalLinhas Int              @default(0)
   status      ImportacaoStatus @default(PROCESSANDO)
+  tipo        ImportacaoTipo   @default(HISTORICO)
   erros       Json?
   criadoEm    DateTime         @default(now())
   usuarioId   String
 
-  municipio   Municipio             @relation(fields: [municipioId], references: [id], onDelete: Cascade)
-  usuario     Usuario               @relation(fields: [usuarioId], references: [id])
-  liquidacoes LiquidacaoHistorica[]
+  municipio        Municipio             @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  usuario          Usuario               @relation(fields: [usuarioId], references: [id])
+  liquidacoes      LiquidacaoHistorica[]
+  execucoesMensais ExecucaoMensal[]      @relation("ImportacaoExecucaoMensal")
 }
 
 enum ImportacaoStatus {
@@ -274,6 +284,7 @@ model LiquidacaoHistorica {
   id              String   @id @default(cuid())
   municipioId     String
   exercicio       Int
+  mes             Int      @default(1)
   codigoPrograma  String
   codigoAcao      String
   naturezaDespesa String
@@ -285,23 +296,56 @@ model LiquidacaoHistorica {
 
   municipio  Municipio           @relation(fields: [municipioId], references: [id], onDelete: Cascade)
   importacao ImportacaoHistorico @relation(fields: [importacaoId], references: [id])
+
+  @@unique([municipioId, exercicio, mes, codigoAcao, naturezaDespesa])
+}
+
+model ExecucaoMensal {
+  id              String   @id @default(cuid())
+  municipioId     String
+  loaId           String
+  dotacaoId       String?
+  mes             Int
+  codigoAcao      String
+  naturezaDespesa String
+  valorEmpenhado  Decimal? @db.Decimal(15, 2)
+  valorLiquidado  Decimal  @db.Decimal(15, 2)
+  importacaoId    String
+  criadoEm        DateTime @default(now())
+
+  municipio  Municipio           @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  loa        LOA                 @relation(fields: [loaId], references: [id])
+  importacao ImportacaoHistorico @relation("ImportacaoExecucaoMensal", fields: [importacaoId], references: [id])
+
+  @@unique([loaId, mes, codigoAcao, naturezaDespesa])
+  @@index([municipioId, mes])
 }
 
 // ─── IA ───────────────────────────────────────────────────────────────────────
 
+enum AiAnaliseStatus {
+  PROCESSANDO
+  CONCLUIDO
+  ERRO
+}
+
 model AiAnalise {
-  id             String        @id @default(cuid())
+  id             String          @id @default(cuid())
   municipioId    String
+  loaId          String?
   tipo           AiAnaliseTipo
+  status         AiAnaliseStatus @default(PROCESSANDO)
+  erroMsg        String?
   contextoJson   Json
   resultadoTexto String
   modeloClaude   String
   tokens         Int?
   aprovadoPor    String?
   aprovadoEm     DateTime?
-  criadoEm       DateTime      @default(now())
+  criadoEm       DateTime        @default(now())
 
   municipio          Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+  loa                LOA?      @relation(fields: [loaId], references: [id])
   aprovadoPorUsuario Usuario?  @relation(fields: [aprovadoPor], references: [id])
 }
 
@@ -310,6 +354,7 @@ enum AiAnaliseTipo {
   ADERENCIA_PPA
   ALERTA_DESVIO
   CLASSIFICACAO_MCASP
+  DRAFT_LOA_COMPLETO
 }
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
