@@ -9,36 +9,57 @@ interface SidebarProps {
   municipioNome: string
   usuarioNome: string
   role?: string
+  exercicios?: number[]
 }
 
-const navItems = [
-  {
-    group: 'MENU PRINCIPAL',
-    items: [
-      { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
-      { href: '/ppa', label: 'PPA — Plano Plurianual', icon: 'assignment' },
-      { href: '/ldo', label: 'LDO — Diretrizes Orçamentárias', icon: 'list_alt' },
-      { href: '/loa', label: 'LOA — Orçamento Anual', icon: 'analytics' },
-    ],
-  },
-  {
-    group: 'PLANEJAMENTO',
-    items: [
-      { href: '/admin/leis', label: 'Base Legal', icon: 'gavel' },
-    ],
-  },
-  {
-    group: 'FERRAMENTAS',
-    items: [
-      { href: '/ppa/importar', label: 'Importação de PPA', icon: 'upload_file' },
-      { href: '/admin/relatorios', label: 'Relatórios', icon: 'description' },
-      { href: '/admin/auditoria', label: 'Auditoria', icon: 'security' },
-    ],
-  },
-]
+function buildNavItems(exercicios: number[]) {
+  const execItems =
+    exercicios.length > 0
+      ? exercicios.flatMap((ano) => [
+          { href: `/execucao/${ano}/dashboard`, label: `Painel ${ano}`, icon: 'monitoring' },
+        ])
+      : [{ href: '/importacao/planejamento', label: 'Importar PPA/LDO para começar', icon: 'info' }]
 
-export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal' }: SidebarProps) {
+  return [
+    {
+      group: 'MENU PRINCIPAL',
+      items: [
+        { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
+        { href: '/ppa', label: 'PPA — Plano Plurianual', icon: 'assignment' },
+        { href: '/ldo', label: 'LDO — Diretrizes Orçamentárias', icon: 'list_alt' },
+        { href: '/loa', label: 'LOA — Orçamento Anual', icon: 'analytics' },
+      ],
+    },
+    {
+      group: 'EXECUÇÃO',
+      items: [
+        ...execItems,
+        ...(exercicios.length > 0
+          ? [{ href: `/execucao/${exercicios[0]}/loa-proposta`, label: 'LOA Proposta IA', icon: 'psychology' }]
+          : []),
+      ],
+    },
+    {
+      group: 'IMPORTAÇÃO',
+      items: [
+        { href: '/importacao/planejamento', label: 'PPA / LDO', icon: 'upload_file' },
+        { href: '/importacao/historico', label: 'Histórico (2022–2025)', icon: 'history' },
+        { href: '/importacao/execucao-mensal', label: 'Execução Mensal', icon: 'event_available' },
+      ],
+    },
+    {
+      group: 'FERRAMENTAS',
+      items: [
+        { href: '/admin/relatorios', label: 'Relatórios', icon: 'description' },
+        { href: '/admin/auditoria', label: 'Auditoria', icon: 'security' },
+      ],
+    },
+  ]
+}
+
+export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal', exercicios = [] }: SidebarProps) {
   const pathname = usePathname()
+  const navItems = buildNavItems(exercicios)
 
   return (
     <aside className="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50 transition-colors">
