@@ -108,7 +108,16 @@
       "Bash(mkdir -p \"C:/projects/PPA-LDO-LOA/.worktrees/execucao-orcamentaria/src/app/\\(app\\)/execucao/[ano]/loa-proposta\")",
       "Bash(ls src/app/\\\\\\(app\\\\\\)/)",
       "Bash(gh pr:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(cat:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_console_messages",
+      "Bash(cat \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/login/page.tsx\")",
+      "Bash(ls \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/\")",
+      "Bash(cat \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/login/actions.ts\")",
+      "Bash(cat \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/login/actions.tsx\")",
+      "Bash(node -e \":*)",
+      "Bash(cd:*)"
     ]
   }
 }
