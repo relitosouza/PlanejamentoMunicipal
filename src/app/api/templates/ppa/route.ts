@@ -57,14 +57,14 @@ export async function GET() {
   ]
   XLSX.utils.book_append_sheet(wb, wsInd, 'Indicadores')
 
-  const arr: Uint8Array = XLSX.write(wb, { type: 'array', bookType: 'xlsx' })
-  const blob = new Blob([arr], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  })
+  const src = XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as unknown as Uint8Array
+  const ab = new ArrayBuffer(src.byteLength)
+  new Uint8Array(ab).set(src)
 
-  return new Response(blob, {
+  return new Response(ab, {
     status: 200,
     headers: {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'Content-Disposition': 'attachment; filename="modelo-ppa.xlsx"',
     },
   })
