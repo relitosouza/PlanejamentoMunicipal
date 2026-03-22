@@ -20,7 +20,7 @@ export async function criarSecretaria(formData: FormData) {
     sigla: formData.get('sigla'),
   })
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.errors[0].message }
+    return { ok: false, error: parsed.error.issues[0].message }
   }
 
   const existing = await prisma.secretaria.findFirst({
