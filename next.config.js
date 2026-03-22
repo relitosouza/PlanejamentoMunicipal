@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  serverExternalPackages: ['@prisma/client', '@prisma/adapter-pg'],
+  serverExternalPackages: ['@prisma/client'],
 };
 
 module.exports = nextConfig;
