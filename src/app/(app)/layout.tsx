@@ -2,7 +2,7 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/layout/sidebar'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()

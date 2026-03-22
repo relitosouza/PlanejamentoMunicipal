@@ -3,9 +3,40 @@
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { parseLiquidacoesXmlAsync } from '@/lib/parsers/xml-audesp'
-import { parseLiquidacoesExcel, type ColumnMap } from '@/lib/parsers/excel-liquidacoes'
+import { parseLiquidacoesExcel, detectarColunas, type ColumnMap } from '@/lib/parsers/excel-liquidacoes'
 import { importExecucaoMensalSchema } from '@/lib/validations/importacao'
 import { revalidatePath } from 'next/cache'
+import * as XLSX from 'xlsx'
+
+export type DetectResult = {
+  ok: boolean
+  headers?: string[]
+  sugestoes?: ColumnMap
+  erro?: string
+  rawDataJson?: string
+}
+
+export async function detectarColunasExcel(formData: FormData): Promise<DetectResult> {
+  const session = await auth()
+  if (!session) return { ok: false, erro: 'Não autenticado' }
+
+  const arquivo = formData.get('arquivo') as File | null
+  if (!arquivo) return { ok: false, erro: 'Arquivo não enviado' }
+
+  try {
+    const buffer = Buffer.from(await arquivo.arrayBuffer())
+    const wb = XLSX.read(buffer, { type: 'buffer' })
+    const ws = wb.Sheets[wb.SheetNames[0]]
+    const rows = XLSX.utils.sheet_to_json(ws) as Record<string, unknown>[]
+    if (rows.length === 0) return { ok: false, erro: 'Planilha vazia' }
+
+    const headers = Object.keys(rows[0])
+    const sugestoes = detectarColunas(headers)
+    return { ok: true, headers, sugestoes, rawDataJson: JSON.stringify(rows) }
+  } catch (e: unknown) {
+    return { ok: false, erro: e instanceof Error ? e.message : 'Erro ao ler planilha' }
+  }
+}
 
 export async function importarExecucaoMensalXml(
   formData: FormData,
@@ -177,5 +208,3 @@ export async function gerarAlertasDesvio(loaId: string, municipioId: string): Pr
   })
 }
 
-// Re-export detectarColunasExcel for use on this page
-export { detectarColunasExcel } from '../historico/_actions'
