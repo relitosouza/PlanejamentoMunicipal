@@ -13,14 +13,7 @@ interface SidebarProps {
 }
 
 function buildNavItems(exercicios: number[]) {
-  const execItems =
-    exercicios.length > 0
-      ? exercicios.flatMap((ano) => [
-          { href: `/execucao/${ano}/dashboard`, label: `Painel ${ano}`, icon: 'monitoring' },
-        ])
-      : [{ href: '/importacao/planejamento', label: 'Importar PPA/LDO para começar', icon: 'info' }]
-
-  return [
+  const groups = [
     {
       group: 'MENU PRINCIPAL',
       items: [
@@ -30,15 +23,17 @@ function buildNavItems(exercicios: number[]) {
         { href: '/loa', label: 'LOA — Orçamento Anual', icon: 'analytics' },
       ],
     },
-    {
-      group: 'EXECUÇÃO',
-      items: [
-        ...execItems,
-        ...(exercicios.length > 0
-          ? [{ href: `/execucao/${exercicios[0]}/loa-proposta`, label: 'LOA Proposta IA', icon: 'psychology' }]
-          : []),
-      ],
-    },
+    ...(exercicios.length > 0
+      ? [{
+          group: 'EXECUÇÃO',
+          items: [
+            ...exercicios.flatMap((ano) => [
+              { href: `/execucao/${ano}/dashboard`, label: `Painel ${ano}`, icon: 'monitoring' },
+            ]),
+            { href: `/execucao/${exercicios[0]}/loa-proposta`, label: 'LOA Proposta IA', icon: 'psychology' },
+          ],
+        }]
+      : []),
     {
       group: 'IMPORTAÇÃO',
       items: [
@@ -55,6 +50,7 @@ function buildNavItems(exercicios: number[]) {
       ],
     },
   ]
+  return groups
 }
 
 export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal', exercicios = [] }: SidebarProps) {
