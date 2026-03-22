@@ -49,6 +49,12 @@ function buildNavItems(exercicios: number[]) {
         { href: '/admin/auditoria', label: 'Auditoria', icon: 'security' },
       ],
     },
+    {
+      group: 'CONFIGURAÇÕES',
+      items: [
+        { href: '/configuracoes/secretarias', label: 'Secretarias', icon: 'corporate_fare' },
+      ],
+    },
   ]
   return groups
 }
