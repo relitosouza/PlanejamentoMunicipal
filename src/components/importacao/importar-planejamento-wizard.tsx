@@ -11,7 +11,10 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
   const [file, setFile] = useState<File | null>(null)
   const [secretariaId, setSecretariaId] = useState(secretarias[0]?.id ?? '')
   const [modo, setModo] = useState<'SUBSTITUIR' | 'MESCLAR'>('MESCLAR')
-  const [preview, setPreview] = useState<{ stats: { programas: number; acoes: number }; dadosJson: string } | null>(null)
+  const [preview, setPreview] = useState<{
+    stats: { programas: number; acoes: number; indicadores: number }
+    dadosJson: string
+  } | null>(null)
   const [ppaId, setPpaId] = useState<string | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
@@ -55,6 +58,22 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
             label: 'Upload',
             content: (
               <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-4">
+                {/* Download template banner */}
+                <div className="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+                  <div className="flex items-center gap-2 text-sm text-blue-800">
+                    <span className="material-symbols-outlined text-base">info</span>
+                    Sem dados? Baixe o modelo Excel e preencha.
+                  </div>
+                  <a
+                    href="/api/templates/ppa"
+                    download="modelo-ppa.xlsx"
+                    className="flex items-center gap-1.5 text-sm font-semibold text-blue-700 hover:text-blue-900 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-base">download</span>
+                    Baixar modelo .xlsx
+                  </a>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Secretaria padrão</label>
@@ -70,10 +89,23 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
                     </select>
                   </div>
                 </div>
-                <div onClick={() => fileRef.current?.click()} className={`border-2 border-dashed rounded-xl p-12 flex flex-col items-center cursor-pointer transition-colors ${file ? 'border-primary bg-primary/5' : 'border-slate-300 bg-slate-50 hover:border-primary/50'}`}>
+
+                <div
+                  onClick={() => fileRef.current?.click()}
+                  className={`border-2 border-dashed rounded-xl p-12 flex flex-col items-center cursor-pointer transition-colors ${file ? 'border-primary bg-primary/5' : 'border-slate-300 bg-slate-50 hover:border-primary/50'}`}
+                >
                   <span className="material-symbols-outlined text-primary text-4xl mb-2">upload_file</span>
-                  <p className="font-bold text-slate-700">{file ? file.name : 'Clique ou arraste o arquivo XML AUDESP'}</p>
-                  <input ref={fileRef} type="file" accept=".xml,.xlsx,.xls" className="hidden" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+                  <p className="font-bold text-slate-700">
+                    {file ? file.name : 'Clique ou arraste o arquivo'}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">Excel (.xlsx) ou XML AUDESP</p>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept=".xml,.xlsx,.xls"
+                    className="hidden"
+                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                  />
                 </div>
                 {erro && <p className="text-red-500 text-sm">{erro}</p>}
               </div>
@@ -84,7 +116,7 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
             content: preview ? (
               <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-4">
                 <h3 className="font-bold text-slate-800">Dados encontrados no arquivo</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <div className="bg-primary/5 rounded-lg p-4 text-center">
                     <p className="text-3xl font-bold text-primary">{preview.stats.programas}</p>
                     <p className="text-sm text-slate-500">Programas</p>
@@ -92,6 +124,10 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
                   <div className="bg-primary/5 rounded-lg p-4 text-center">
                     <p className="text-3xl font-bold text-primary">{preview.stats.acoes}</p>
                     <p className="text-sm text-slate-500">Ações</p>
+                  </div>
+                  <div className="bg-primary/5 rounded-lg p-4 text-center">
+                    <p className="text-3xl font-bold text-primary">{preview.stats.indicadores}</p>
+                    <p className="text-sm text-slate-500">Indicadores</p>
                   </div>
                 </div>
                 {erro && <p className="text-red-500 text-sm">{erro}</p>}

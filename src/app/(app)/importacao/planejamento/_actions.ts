@@ -3,11 +3,12 @@
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { parsePpaXmlAsync } from '@/lib/parsers/xml-audesp'
+import { parsePpaExcel, type PpaExcelPrograma } from '@/lib/parsers/excel-ppa'
 import { revalidatePath } from 'next/cache'
 
 export type PreviewResult = {
   ok: boolean
-  stats?: { programas: number; acoes: number }
+  stats?: { programas: number; acoes: number; indicadores: number }
   erro?: string
   dadosJson?: string
 }
@@ -20,14 +21,29 @@ export async function previewImportPlanejamento(formData: FormData): Promise<Pre
   if (!arquivo) return { ok: false, erro: 'Arquivo não enviado' }
 
   try {
-    const text = await arquivo.text()
-    const data = await parsePpaXmlAsync(text)
+    const isExcel = arquivo.name.endsWith('.xlsx') || arquivo.name.endsWith('.xls')
+
+    let data: { programas: PpaExcelPrograma[]; anoInicio: number; anoFim: number }
+
+    if (isExcel) {
+      const buffer = Buffer.from(await arquivo.arrayBuffer())
+      data = parsePpaExcel(buffer) as typeof data
+    } else {
+      const text = await arquivo.text()
+      const xmlData = await parsePpaXmlAsync(text)
+      // XML result has no indicadores — normalize to same shape
+      data = {
+        ...xmlData,
+        programas: xmlData.programas.map((p) => ({ ...p, indicadores: [] })),
+      }
+    }
 
     return {
       ok: true,
       stats: {
         programas: data.programas.length,
         acoes: data.programas.reduce((sum, p) => sum + p.acoes.length, 0),
+        indicadores: data.programas.reduce((sum, p) => sum + (p.indicadores?.length ?? 0), 0),
       },
       dadosJson: JSON.stringify(data),
     }
@@ -69,15 +85,16 @@ export async function executarImportPlanejamento(
       anoFim: data.anoFim,
       status: 'APROVADO',
       programas: {
-        create: data.programas.map((p: any) => ({
+        create: data.programas.map((p: PpaExcelPrograma) => ({
           numero: p.numero,
           nome: p.nome,
           objetivo: p.objetivo,
+          justificativa: p.justificativa ?? null,
           tipo: p.tipo,
           secretariaId,
           odsIds: [],
           acoes: {
-            create: p.acoes.map((a: any) => ({
+            create: p.acoes.map((a) => ({
               codigo: a.codigo,
               nome: a.nome,
               tipo: a.tipo,
@@ -85,6 +102,18 @@ export async function executarImportPlanejamento(
               unidadeMedida: a.unidadeMedida ?? null,
             })),
           },
+          indicadores: p.indicadores?.length
+            ? {
+                create: p.indicadores.map((ind) => ({
+                  nome: ind.nome,
+                  unidade: ind.unidade,
+                  valorBase: ind.valorBase ?? null,
+                  valorMeta: ind.valorMeta,
+                  periodicidade: ind.periodicidade,
+                  fonte: ind.fonte ?? null,
+                })),
+              }
+            : undefined,
         })),
       },
     },
