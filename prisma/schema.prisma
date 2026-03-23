@@ -10,13 +10,14 @@ datasource db {
 // ─── Tenant ──────────────────────────────────────────────────────────────────
 
 model Municipio {
-  id          String   @id @default(cuid())
-  cnpj        String   @unique
-  nome        String
-  uf          String
-  populacao   Int?
-  logoUrl     String?
-  criadoEm    DateTime @default(now())
+  id                   String   @id @default(cuid())
+  cnpj                 String   @unique
+  nome                 String
+  uf                   String
+  populacao            Int?
+  logoUrl              String?
+  criadoEm             DateTime @default(now())
+  modulosDesativados   String[] @default([])
 
   usuarios              Usuario[]
   secretarias           Secretaria[]

@@ -8,12 +8,18 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const session = await auth()
   if (!session) redirect('/login')
 
-  const loasVigentes = await prisma.lOA.findMany({
-    where: { municipioId: session.user.municipioId, status: { in: ['RASCUNHO', 'APROVADO', 'VIGENTE'] } },
-    select: { exercicio: true },
-    orderBy: { exercicio: 'desc' },
-    take: 3,
-  })
+  const [loasVigentes, municipio] = await Promise.all([
+    prisma.lOA.findMany({
+      where: { municipioId: session.user.municipioId, status: { in: ['RASCUNHO', 'APROVADO', 'VIGENTE'] } },
+      select: { exercicio: true },
+      orderBy: { exercicio: 'desc' },
+      take: 3,
+    }),
+    prisma.municipio.findUnique({
+      where: { id: session.user.municipioId },
+      select: { modulosDesativados: true },
+    }),
+  ])
   const exercicios = loasVigentes.map((l) => l.exercicio)
 
   return (
@@ -22,6 +28,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         municipioNome={session.user.municipioNome}
         usuarioNome={session.user.name ?? ''}
         exercicios={exercicios}
+        modulosDesativados={municipio?.modulosDesativados ?? []}
       />
       <main className="flex-1 ml-80">
         {children}
