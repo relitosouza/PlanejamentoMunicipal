@@ -117,7 +117,12 @@
       "Bash(cat \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/login/actions.ts\")",
       "Bash(cat \"C:/projects/PPA-LDO-LOA/src/app/\\(auth\\)/login/actions.tsx\")",
       "Bash(node -e \":*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "Bash(ls c:/projects/PPA-LDO-LOA/src/app/\\\\\\(app\\\\\\)/configuracoes/)",
+      "Bash(npm i:*)"
     ]
   }
 }

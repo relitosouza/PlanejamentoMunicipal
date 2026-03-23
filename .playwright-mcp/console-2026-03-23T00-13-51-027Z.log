@@ -1,0 +1,5 @@
+[    1242ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://planejamento-municipal-bay.vercel.app/favicon.ico:0
+[   46267ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://planejamento-municipal-bay.vercel.app/relatorios?_rsc=18t7j:0
+[   46279ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://planejamento-municipal-bay.vercel.app/ai?_rsc=18t7j:0
+[   46330ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://planejamento-municipal-bay.vercel.app/admin/auditoria?_rsc=18t7j:0
+[   46398ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://planejamento-municipal-bay.vercel.app/admin/relatorios?_rsc=18t7j:0
