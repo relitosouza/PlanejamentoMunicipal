@@ -19,11 +19,6 @@ export default async function NovoProgramaPage({
   })
   if (!ppa) notFound()
 
-  const secretarias = await prisma.secretaria.findMany({
-    where: { municipioId: session.user.municipioId },
-    orderBy: { sigla: 'asc' },
-  })
-
   const handleSubmit = criarPrograma.bind(null, ppaId)
 
   return (
@@ -38,7 +33,6 @@ export default async function NovoProgramaPage({
         </div>
         <ProgramaForm
           ppaId={ppaId}
-          secretarias={secretarias}
           onSubmit={handleSubmit}
           cancelHref={`/ppa/${ppaId}/programas`}
         />

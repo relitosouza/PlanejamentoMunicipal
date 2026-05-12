@@ -105,23 +105,72 @@ export function AcaoRow({ acao }: AcaoRowProps) {
     startTransition(async () => { await excluirAcao(acao.id); router.refresh() })
   }
 
+  // Verificar se há metas quadrienais
+  const hasMetas = (acao as any).metaFisica1 || (acao as any).metaFisica2 || (acao as any).metaFisica3 || (acao as any).metaFisica4 || 
+                   (acao as any).metaFinan1 || (acao as any).metaFinan2 || (acao as any).metaFinan3 || (acao as any).metaFinan4
+
   return (
-    <div className="flex items-center justify-between px-5 py-3">
-      <div>
-        <span className="font-mono text-xs text-slate-400 mr-3">{acao.codigo}</span>
-        <span className="text-sm font-medium text-slate-700">{acao.nome}</span>
-        {acao.metaFisica && (
-          <span className="text-xs text-slate-400 ml-3">
-            Meta: {String(acao.metaFisica)} {acao.unidadeMedida}
-          </span>
-        )}
+    <div className="flex flex-col px-5 py-4 gap-3">
+      <div className="flex items-center justify-between">
+        <div>
+          <span className="font-mono text-xs text-slate-400 mr-3">{acao.codigo}</span>
+          <span className="text-sm font-semibold text-slate-800">{acao.nome}</span>
+          <span className="text-[10px] text-slate-400 ml-3 uppercase font-bold bg-slate-100 px-2 py-0.5 rounded tracking-wider">{acao.tipo}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={handleDelete} disabled={isPending} className="text-slate-300 hover:text-red-400 transition-colors">
+            <span className="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
       </div>
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-slate-400">{acao.tipo}</span>
-        <button onClick={handleDelete} disabled={isPending} className="text-slate-300 hover:text-red-400 transition-colors">
-          <span className="material-symbols-outlined text-[18px]">delete</span>
-        </button>
-      </div>
+
+      {/* Hierarquia Orçamentária */}
+      {((acao as any).orgao || (acao as any).funcao || (acao as any).unidExec) && (
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-slate-400 font-bold uppercase tracking-wide">
+          {(acao as any).orgao && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">account_balance</span> Orgão: {(acao as any).orgao}</span>}
+          {(acao as any).unidExec && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">domain</span> Unid: {(acao as any).unidExec}</span>}
+          {(acao as any).funcao && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">category</span> Fun: {(acao as any).funcao} / {(acao as any).subfuncao}</span>}
+        </div>
+      )}
+
+      {/* Grid de Metas Quadrienais */}
+      {hasMetas ? (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1">
+          {[1, 2, 3, 4].map(ano => {
+            const fis = (acao as any)[`metaFisica${ano}`]
+            const fin = (acao as any)[`metaFinan${ano}`]
+            if (!fis && !fin) return null
+            return (
+              <div key={ano} className="bg-slate-50 border border-slate-100 rounded-lg p-2.5 shadow-sm">
+                <p className="text-[9px] font-black text-slate-400 uppercase mb-1.5 flex items-center justify-between">
+                  Ano {ano}
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary/30"></span>
+                </p>
+                <div className="space-y-1">
+                  {fis && (
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm font-bold text-slate-700">{String(fis)}</span>
+                      <span className="text-[9px] font-medium text-slate-400">{acao.unidadeMedida}</span>
+                    </div>
+                  )}
+                  {fin && (
+                    <div className="text-[11px] text-green-600 font-bold">
+                      R$ {Number(fin).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        acao.metaFisica && (
+          <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 w-fit">
+             <span className="text-[10px] font-bold text-slate-400 uppercase">Meta Global:</span>
+             <span className="text-xs font-bold text-primary">{String(acao.metaFisica)} {acao.unidadeMedida}</span>
+          </div>
+        )
+      )}
     </div>
   )
 }

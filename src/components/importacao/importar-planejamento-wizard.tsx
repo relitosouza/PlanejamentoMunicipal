@@ -2,14 +2,13 @@
 
 import { useState, useRef, useTransition } from 'react'
 import { ImportWizard } from '@/components/shared/import-wizard'
-import { previewImportPlanejamento, executarImportPlanejamento } from '@/app/(app)/importacao/planejamento/_actions'
+import { previewImportPlanejamento, executarImportPlanejamento, executarImportLoa } from '@/app/(app)/importacao/planejamento/_actions'
 import Link from 'next/link'
 
-interface Secretaria { id: string; nome: string; sigla: string }
 
-export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secretaria[] }) {
+export function ImportarPlanejamentoWizard() {
   const [file, setFile] = useState<File | null>(null)
-  const [secretariaId, setSecretariaId] = useState(secretarias[0]?.id ?? '')
+  const [layout, setLayout] = useState<'PADRAO' | 'FLAT' | 'LDO_FLAT' | 'LOA'>('PADRAO')
   const [modo, setModo] = useState<'SUBSTITUIR' | 'MESCLAR'>('MESCLAR')
   const [preview, setPreview] = useState<{
     stats: { programas: number; acoes: number; indicadores: number }
@@ -26,7 +25,9 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
       setErro(null)
       return new Promise((resolve) => {
         startTransition(async () => {
-          const fd = new FormData(); fd.append('arquivo', file)
+          const fd = new FormData(); 
+          fd.append('arquivo', file)
+          fd.append('layout', layout)
           const result = await previewImportPlanejamento(fd)
           if (!result.ok) { setErro(result.erro ?? 'Erro'); resolve(false); return }
           setPreview({ stats: result.stats!, dadosJson: result.dadosJson! })
@@ -37,9 +38,14 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
     if (step === 2) {
       return new Promise((resolve) => {
         startTransition(async () => {
-          const result = await executarImportPlanejamento(preview!.dadosJson, modo, secretariaId)
+          let result
+          if (layout === 'LOA') {
+            result = await executarImportLoa(preview!.dadosJson)
+          } else {
+            result = await executarImportPlanejamento(preview!.dadosJson, modo)
+          }
           if (!result.ok) { setErro(result.erro ?? 'Erro'); resolve(false); return }
-          setPpaId(result.ppaId!)
+          setPpaId(result.ppaId ?? result.loaId!)
           resolve(true)
         })
       })
@@ -57,7 +63,7 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
           {
             label: 'Upload',
             content: (
-              <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-4">
+              <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-6">
                 {/* Download template banner */}
                 <div className="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
                   <div className="flex items-center gap-2 text-sm text-blue-800">
@@ -76,14 +82,17 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Secretaria padrão</label>
-                    <select value={secretariaId} onChange={(e) => setSecretariaId(e.target.value)} className="w-full border rounded-lg p-2">
-                      {secretarias.map((s) => <option key={s.id} value={s.id}>{s.sigla} — {s.nome}</option>)}
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Layout do Arquivo</label>
+                    <select value={layout} onChange={(e) => setLayout(e.target.value as any)} className="w-full border rounded-lg p-2 bg-white">
+                      <option value="PADRAO">PPA: Modelo Multi-Abas (Padrão)</option>
+                      <option value="FLAT">PPA: Tabela Única (Flat File)</option>
+                      <option value="LDO_FLAT">LDO: Tabela Única (Layout Customizado)</option>
+                      <option value="LOA">LOA: Tabela Única (Layout GRP/Contabil)</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Modo de importação</label>
-                    <select value={modo} onChange={(e) => setModo(e.target.value as 'SUBSTITUIR' | 'MESCLAR')} className="w-full border rounded-lg p-2">
+                    <select value={modo} onChange={(e) => setModo(e.target.value as 'SUBSTITUIR' | 'MESCLAR')} className="w-full border rounded-lg p-2 bg-white">
                       <option value="MESCLAR">Mesclar (adiciona o que não existe)</option>
                       <option value="SUBSTITUIR">Substituir (apaga e recria)</option>
                     </select>
@@ -139,9 +148,15 @@ export function ImportarPlanejamentoWizard({ secretarias }: { secretarias: Secre
             content: (
               <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
                 <span className="material-symbols-outlined text-green-500 text-5xl">check_circle</span>
-                <h2 className="text-2xl font-bold mt-4">PPA Importado com Sucesso!</h2>
+                <h2 className="text-2xl font-bold mt-4">
+                  {layout === 'LOA' ? 'LOA Importada com Sucesso!' : 'PPA Importado com Sucesso!'}
+                </h2>
                 <div className="flex justify-center gap-4 mt-8">
-                  <Link href={`/ppa/${ppaId}`} className="bg-primary text-white font-bold py-2.5 px-8 rounded-lg">Ver PPA</Link>
+                  {layout === 'LOA' ? (
+                    <Link href={`/loa/${ppaId}`} className="bg-primary text-white font-bold py-2.5 px-8 rounded-lg">Ver LOA</Link>
+                  ) : (
+                    <Link href={`/ppa/${ppaId}`} className="bg-primary text-white font-bold py-2.5 px-8 rounded-lg">Ver PPA</Link>
+                  )}
                   <Link href="/importacao/historico" className="border border-primary text-primary font-bold py-2.5 px-8 rounded-lg">Importar Histórico</Link>
                 </div>
               </div>

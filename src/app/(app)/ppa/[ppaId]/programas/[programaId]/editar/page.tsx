@@ -14,16 +14,10 @@ export default async function EditarProgramaPage({
   const session = await auth()
   if (!session) redirect('/login')
 
-  const [programa, secretarias] = await Promise.all([
-    prisma.programa.findFirst({
-      where: { id: programaId },
-      include: { ppa: { select: { municipioId: true, anoInicio: true, anoFim: true } } },
-    }),
-    prisma.secretaria.findMany({
-      where: { municipioId: session.user.municipioId },
-      orderBy: { sigla: 'asc' },
-    }),
-  ])
+  const programa = await prisma.programa.findFirst({
+    where: { id: programaId },
+    include: { ppa: { select: { municipioId: true, anoInicio: true, anoFim: true } } },
+  })
 
   if (!programa || programa.ppa.municipioId !== session.user.municipioId) notFound()
 
@@ -41,14 +35,13 @@ export default async function EditarProgramaPage({
         </div>
         <ProgramaForm
           ppaId={ppaId}
-          secretarias={secretarias}
           defaultValues={{
             numero: programa.numero,
             nome: programa.nome,
             objetivo: programa.objetivo,
             justificativa: programa.justificativa ?? '',
             tipo: programa.tipo,
-            secretariaId: programa.secretariaId,
+            secretariaId: programa.secretariaId ?? undefined,
             odsIds: programa.odsIds,
           }}
           onSubmit={handleSubmit}

@@ -17,9 +17,10 @@ export const programaSchema = z.object({
   numero: z.string().min(1, 'Obrigatório').max(20),
   nome: z.string().min(3, 'Mínimo 3 caracteres').max(200),
   objetivo: z.string().min(10, 'Mínimo 10 caracteres'),
-  justificativa: z.string().optional(),
-  tipo: z.enum(['FINALISTICO', 'GESTAO']),
-  secretariaId: z.string().min(1, 'Selecione uma secretaria'),
+   justificativa: z.string().optional(),
+   tipo: z.enum(['FINALISTICO', 'GESTAO']),
+   natureza: z.string().optional(),
+   secretariaId: z.string().optional(),
   odsIds: z.array(z.number().int().min(1).max(17)).default([]),
 })
 
@@ -29,9 +30,13 @@ export const acaoGovernoSchema = z.object({
   codigo: z.string().min(1, 'Obrigatório').max(20),
   nome: z.string().min(3, 'Mínimo 3 caracteres').max(200),
   tipo: z.enum(['ATIVIDADE', 'PROJETO', 'OPERACAO_ESPECIAL']),
-  metaFisica: z.number().positive().optional().nullable(),
-  unidadeMedida: z.string().max(50).optional(),
-})
+   metaFisica: z.number().positive().optional().nullable(),
+   unidadeMedida: z.string().max(50).optional(),
+   codigoUg: z.string().optional().nullable(),
+   nomeUg: z.string().optional().nullable(),
+   controle: z.string().optional().nullable(),
+   indicador: z.string().optional().nullable(),
+ })
 
 export type AcaoGovernoInput = z.infer<typeof acaoGovernoSchema>
 

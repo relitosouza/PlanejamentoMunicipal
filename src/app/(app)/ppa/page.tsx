@@ -30,11 +30,9 @@ export default async function PPAPage() {
         title="PPA — Plano Plurianual"
         actions={
           <Dialog>
-            <DialogTrigger>
-              <Button className="bg-primary hover:bg-primary/90">
-                <span className="material-symbols-outlined text-[18px] mr-2">add</span>
-                Novo PPA
-              </Button>
+            <DialogTrigger render={<Button className="bg-primary hover:bg-primary/90" />}>
+              <span className="material-symbols-outlined text-[18px] mr-2">add</span>
+              Novo PPA
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

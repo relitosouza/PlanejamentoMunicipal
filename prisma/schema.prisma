@@ -70,13 +70,14 @@ model Programa {
   objetivo      String
   justificativa String?
   tipo          ProgramaTipo @default(FINALISTICO)
-  secretariaId  String
+  natureza      String?
+  secretariaId  String?
   odsIds        Int[]
   criadoEm      DateTime     @default(now())
   atualizadoEm  DateTime     @updatedAt
 
   ppa         PPA                   @relation(fields: [ppaId], references: [id], onDelete: Cascade)
-  secretaria  Secretaria            @relation(fields: [secretariaId], references: [id])
+  secretaria  Secretaria?           @relation(fields: [secretariaId], references: [id])
   acoes       AcaoGoverno[]
   indicadores IndicadorDesempenho[]
 
@@ -96,6 +97,34 @@ model AcaoGoverno {
   metaFisica    Decimal? @db.Decimal(15, 2)
   unidadeMedida String?
   tipo          AcaoTipo @default(ATIVIDADE)
+
+  // Metas Quadrienais (Físicas e Financeiras)
+  metaFisica1    Decimal? @db.Decimal(15, 2)
+  metaFisica2    Decimal? @db.Decimal(15, 2)
+  metaFisica3    Decimal? @db.Decimal(15, 2)
+  metaFisica4    Decimal? @db.Decimal(15, 2)
+  metaFinan1     Decimal? @db.Decimal(15, 2)
+  metaFinan2     Decimal? @db.Decimal(15, 2)
+  metaFinan3     Decimal? @db.Decimal(15, 2)
+  metaFinan4     Decimal? @db.Decimal(15, 2)
+
+  // Hierarquia e Contexto Orçamentário
+  orgao          String?
+  unidOrca       String?
+  unidExec       String?
+  funcao         String?
+  subfuncao      String?
+  produto        String?
+  regiao         String?
+  indiceRecente  String?
+  indiceFuturo   String?
+
+  // Novos campos LDO Flat
+  codigoUg       String?
+  nomeUg         String?
+  controle       String?
+  indicador      String?
+
   criadoEm      DateTime @default(now())
   atualizadoEm  DateTime @updatedAt
 
@@ -137,7 +166,7 @@ model LDO {
   atualizadoEm DateTime  @updatedAt
 
   municipio Municipio @relation(fields: [municipioId], references: [id], onDelete: Cascade)
-  ppa       PPA       @relation(fields: [ppaId], references: [id])
+  ppa       PPA       @relation(fields: [ppaId], references: [id], onDelete: Cascade)
   acoes     AcaoLDO[]
   loas      LOA[]
 
@@ -162,7 +191,7 @@ model AcaoLDO {
   atualizadoEm            DateTime      @updatedAt
 
   ldo         LDO         @relation(fields: [ldoId], references: [id], onDelete: Cascade)
-  acaoGoverno AcaoGoverno @relation(fields: [acaoGovernoId], references: [id])
+  acaoGoverno AcaoGoverno @relation(fields: [acaoGovernoId], references: [id], onDelete: Cascade)
   dotacoes    Dotacao[]
 
   @@unique([ldoId, acaoGovernoId])
@@ -188,9 +217,9 @@ model LOA {
   criadoEm      DateTime  @default(now())
   atualizadoEm  DateTime  @updatedAt
 
-  municipio        Municipio        @relation(fields: [municipioId], references: [id], onDelete: Cascade)
-  ldo              LDO              @relation(fields: [ldoId], references: [id])
-  dotacoes         Dotacao[]
+   municipio        Municipio        @relation(fields: [municipioId], references: [id], onDelete: Cascade)
+   ldo              LDO              @relation(fields: [ldoId], references: [id], onDelete: Cascade)
+   dotacoes         Dotacao[]
   execucoesMensais ExecucaoMensal[]
   aiAnalises       AiAnalise[]
 
@@ -214,9 +243,9 @@ model Dotacao {
   criadoEm          DateTime @default(now())
   atualizadoEm      DateTime @updatedAt
 
-  loa             LOA             @relation(fields: [loaId], references: [id], onDelete: Cascade)
-  acaoLdo         AcaoLDO         @relation(fields: [acaoLdoId], references: [id])
-  naturezaDespesa NaturezaDespesa @relation(fields: [naturezaDespesaId], references: [id])
+   loa             LOA             @relation(fields: [loaId], references: [id], onDelete: Cascade)
+   acaoLdo         AcaoLDO         @relation(fields: [acaoLdoId], references: [id], onDelete: Cascade)
+   naturezaDespesa NaturezaDespesa @relation(fields: [naturezaDespesaId], references: [id])
   fonteRecurso    FonteRecurso    @relation(fields: [fonteRecursoId], references: [id])
 }
 
@@ -315,7 +344,7 @@ model ExecucaoMensal {
   criadoEm        DateTime @default(now())
 
   municipio  Municipio           @relation(fields: [municipioId], references: [id], onDelete: Cascade)
-  loa        LOA                 @relation(fields: [loaId], references: [id])
+  loa        LOA                 @relation(fields: [loaId], references: [id], onDelete: Cascade)
   importacao ImportacaoHistorico @relation("ImportacaoExecucaoMensal", fields: [importacaoId], references: [id])
 
   @@unique([loaId, mes, codigoAcao, naturezaDespesa])

@@ -140,6 +140,19 @@ export default async function LoaDashboardPage({ params }: Props) {
             </p>
           </Link>
           <Link
+            href={`/loa/${loaId}/elaboracao`}
+            className="bg-white rounded-xl border border-slate-200 p-6 hover:border-blue-500 transition-colors block group relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+              <span className="material-symbols-outlined text-6xl text-blue-500">magic_button</span>
+            </div>
+            <span className="material-symbols-outlined text-blue-500 text-2xl">architecture</span>
+            <h3 className="font-semibold mt-2">Elaboração Assistida</h3>
+            <p className="text-sm text-slate-500 mt-1">
+              Interface avançada com filtros por Órgão/UE e sugestões históricas.
+            </p>
+          </Link>
+          <Link
             href={`/ldo/${loa.ldo.id}`}
             className="bg-white rounded-xl border border-slate-200 p-6 hover:border-primary transition-colors block col-span-2"
           >

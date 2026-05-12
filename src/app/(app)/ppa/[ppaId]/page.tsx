@@ -37,7 +37,6 @@ export default async function PPADashboardPage({
 
   const totalProgramas = ppa.programas.length
   const totalAcoes = ppa.programas.reduce((sum, p) => sum + p._count.acoes, 0)
-  const totalIndicadores = ppa.programas.reduce((sum, p) => sum + p._count.indicadores, 0)
 
   // ODS coverage: unique ODS across all programs
   const allOds = new Set(ppa.programas.flatMap((p) => p.odsIds))
@@ -69,11 +68,10 @@ export default async function PPADashboardPage({
       />
       <div className="p-8 space-y-8">
         {/* KPI Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { label: 'Programas', value: totalProgramas, icon: 'folder_open', color: 'text-blue-600' },
             { label: 'Ações de Governo', value: totalAcoes, icon: 'task_alt', color: 'text-green-600' },
-            { label: 'Indicadores', value: totalIndicadores, icon: 'bar_chart', color: 'text-purple-600' },
             { label: 'Cobertura ODS', value: `${odsCobertura}%`, icon: 'public', color: 'text-orange-500' },
           ].map((kpi) => (
             <div key={kpi.label} className="bg-white rounded-xl border border-slate-200 p-5">

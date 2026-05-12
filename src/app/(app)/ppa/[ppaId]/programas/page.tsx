@@ -66,7 +66,6 @@ export default async function ProgramasPage({
                   <th className="text-left px-5 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Nome</th>
                   <th className="text-left px-5 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Secretaria</th>
                   <th className="text-right px-5 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Ações</th>
-                  <th className="text-right px-5 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Indicadores</th>
                   <th className="px-5 py-3"></th>
                 </tr>
               </thead>
@@ -75,9 +74,8 @@ export default async function ProgramasPage({
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-5 py-3 font-mono text-slate-500">{p.numero}</td>
                     <td className="px-5 py-3 font-medium text-slate-700">{p.nome}</td>
-                    <td className="px-5 py-3 text-slate-400">{p.secretaria.sigla}</td>
+                    <td className="px-5 py-3 text-slate-400">{p.secretaria?.sigla || 'N/D'}</td>
                     <td className="px-5 py-3 text-right text-slate-500">{p._count.acoes}</td>
-                    <td className="px-5 py-3 text-right text-slate-500">{p._count.indicadores}</td>
                     <td className="px-5 py-3">
                       <Link href={`/ppa/${ppaId}/programas/${p.id}`}>
                         <span className="material-symbols-outlined text-slate-300 hover:text-primary transition-colors">chevron_right</span>
