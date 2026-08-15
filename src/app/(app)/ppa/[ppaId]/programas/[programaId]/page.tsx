@@ -87,7 +87,7 @@ export default async function ProgramaDetailPage({
             </div>
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Secretaria</p>
-              <p className="mt-1">{programa.secretaria.sigla} — {programa.secretaria.nome}</p>
+              <p className="mt-1">{programa.secretaria?.sigla || 'N/D'} — {programa.secretaria?.nome || 'Não definida'}</p>
             </div>
           </div>
           <div>
@@ -132,22 +132,6 @@ export default async function ProgramaDetailPage({
           <AcaoForm programaId={programaId} />
         </div>
 
-        {/* Indicadores section */}
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-              Indicadores de Desempenho ({programa.indicadores.length})
-            </h3>
-          </div>
-          {programa.indicadores.length > 0 && (
-            <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100 mb-3">
-              {programa.indicadores.map((ind) => (
-                <IndicadorRow key={ind.id} indicador={ind} />
-              ))}
-            </div>
-          )}
-          <IndicadorForm programaId={programaId} />
-        </div>
       </div>
     </>
   )

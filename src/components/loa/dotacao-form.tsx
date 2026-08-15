@@ -37,6 +37,7 @@ interface Props {
   dotacaoId?: string
   createAction?: (loaId: string, input: DotacaoInput) => Promise<{ data?: { id: string }; error?: string }>
   updateAction?: (dotacaoId: string, input: DotacaoInput) => Promise<{ error?: string }>
+  customTrigger?: React.ReactNode
 }
 
 export function DotacaoForm({
@@ -89,22 +90,20 @@ export function DotacaoForm({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button
-            variant={isEditing ? 'outline' : 'default'}
-            size={isEditing ? 'sm' : 'default'}
-            className={isEditing ? '' : 'bg-primary hover:bg-primary/90'}
-          />
+          customTrigger ? (
+            (customTrigger as React.ReactElement)
+          ) : (
+            <Button
+              variant={isEditing ? 'outline' : 'default'}
+              size={isEditing ? 'sm' : 'default'}
+              className={isEditing ? '' : 'bg-primary hover:bg-primary/90'}
+            >
+              <span className="material-symbols-outlined text-[18px] mr-2">add</span>
+              {isEditing ? 'Editar' : 'Nova Dotação'}
+            </Button>
+          )
         }
-      >
-        {isEditing ? (
-          'Editar'
-        ) : (
-          <>
-            <span className="material-symbols-outlined text-[18px] mr-2">add</span>
-            Nova Dotação
-          </>
-        )}
-      </DialogTrigger>
+      />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditing ? 'Editar Dotação' : 'Nova Dotação'}</DialogTitle>

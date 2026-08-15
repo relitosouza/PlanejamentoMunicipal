@@ -9,36 +9,64 @@ interface SidebarProps {
   municipioNome: string
   usuarioNome: string
   role?: string
+  exercicios?: number[]
+  modulosDesativados?: string[]
 }
 
-const navItems = [
-  {
-    group: 'MENU PRINCIPAL',
-    items: [
-      { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
-      { href: '/ppa', label: 'PPA — Plano Plurianual', icon: 'assignment' },
-      { href: '/ldo', label: 'LDO — Diretrizes Orçamentárias', icon: 'list_alt' },
-      { href: '/loa', label: 'LOA — Orçamento Anual', icon: 'analytics' },
-    ],
-  },
-  {
-    group: 'PLANEJAMENTO',
-    items: [
-      { href: '/admin/leis', label: 'Base Legal', icon: 'gavel' },
-    ],
-  },
-  {
-    group: 'FERRAMENTAS',
-    items: [
-      { href: '/ppa/importar', label: 'Importação de PPA', icon: 'upload_file' },
-      { href: '/admin/relatorios', label: 'Relatórios', icon: 'description' },
-      { href: '/admin/auditoria', label: 'Auditoria', icon: 'security' },
-    ],
-  },
-]
+function buildNavItems(exercicios: number[], modulosDesativados: string[]) {
+  const off = new Set(modulosDesativados)
 
-export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal' }: SidebarProps) {
+  const groups = [
+    {
+      group: 'MENU PRINCIPAL',
+      items: [
+        !off.has('dashboard')    && { href: '/dashboard', label: 'Dashboard', icon: 'dashboard', modulo: 'dashboard' },
+        !off.has('ppa')          && { href: '/ppa',       label: 'PPA — Plano Plurianual', icon: 'assignment', modulo: 'ppa' },
+        !off.has('ldo')          && { href: '/ldo',       label: 'LDO — Diretrizes Orçamentárias', icon: 'list_alt', modulo: 'ldo' },
+        !off.has('loa')          && { href: '/loa',       label: 'LOA — Orçamento Anual', icon: 'analytics', modulo: 'loa' },
+      ].filter(Boolean) as { href: string; label: string; icon: string; modulo: string }[],
+    },
+    ...(exercicios.length > 0
+      ? [{
+          group: 'EXECUÇÃO',
+          items: [
+            ...(!off.has('execucao') ? exercicios.flatMap((ano) => [
+              { href: `/execucao/${ano}/dashboard`, label: `Painel ${ano}`, icon: 'monitoring', modulo: 'execucao' },
+            ]) : []),
+            ...(!off.has('loa-proposta') ? [{ href: `/execucao/${exercicios[0]}/loa-proposta`, label: 'LOA Proposta IA', icon: 'psychology', modulo: 'loa-proposta' }] : []),
+          ],
+        }].filter((g) => g.items.length > 0)
+      : []),
+    {
+      group: 'IMPORTAÇÃO',
+      items: [
+        !off.has('imp-planejamento') && { href: '/importacao/planejamento',   label: 'PPA / LDO',           icon: 'upload_file',    modulo: 'imp-planejamento' },
+        !off.has('imp-historico')    && { href: '/importacao/historico',      label: 'Histórico (2022–2025)', icon: 'history',       modulo: 'imp-historico' },
+        !off.has('imp-execucao')     && { href: '/importacao/execucao-mensal', label: 'Execução Mensal',     icon: 'event_available', modulo: 'imp-execucao' },
+      ].filter(Boolean) as { href: string; label: string; icon: string; modulo: string }[],
+    },
+    {
+      group: 'FERRAMENTAS',
+      items: [
+        !off.has('relatorios') && { href: '/admin/relatorios', label: 'Relatórios', icon: 'description', modulo: 'relatorios' },
+        !off.has('auditoria')  && { href: '/admin/auditoria',  label: 'Auditoria',  icon: 'security',    modulo: 'auditoria' },
+      ].filter(Boolean) as { href: string; label: string; icon: string; modulo: string }[],
+    },
+    {
+      group: 'CONFIGURAÇÕES',
+      items: [
+        { href: '/configuracoes/modulos',     label: 'Módulos do Sistema', icon: 'tune',          modulo: '' },
+        { href: '/configuracoes/secretarias', label: 'Secretarias',        icon: 'corporate_fare', modulo: '' },
+      ],
+    },
+  ].filter((g) => g.items.length > 0)
+
+  return groups
+}
+
+export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal', exercicios = [], modulosDesativados = [] }: SidebarProps) {
   const pathname = usePathname()
+  const navItems = buildNavItems(exercicios, modulosDesativados)
 
   return (
     <aside className="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50 transition-colors">
@@ -92,7 +120,7 @@ export function Sidebar({ municipioNome, usuarioNome, role = 'Gestor Municipal' 
             <p className="text-sm font-bold truncate text-slate-900 dark:text-slate-100">{usuarioNome || 'Gestor'}</p>
             <div className="flex items-center justify-between">
               <p className="text-[11px] text-slate-500 truncate">{role}</p>
-              <button 
+              <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
                 className="material-symbols-outlined text-[16px] text-slate-400 hover:text-red-500 transition-colors"
               >

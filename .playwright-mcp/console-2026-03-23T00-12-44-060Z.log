@@ -1,0 +1,134 @@
+[   38537ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/receitas-correntes-mensal-detalhado?cod_ibge=2301000&ano=2024:0
+[   38537ms] [ERROR] Erro ao buscar Receitas Correntes Mensal Detalhado: TypeError: Failed to fetch
+    at R7 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:7545)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:26010
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:26134
+    at bg (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:24283)
+    at Dl (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:42409)
+    at RF (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:41231)
+    at us (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:40278)
+    at gj (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:36886)
+    at Ko (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:38:3279)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:34263 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   38728ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/receitas/previsao-realizado?cod_ibge=2301000&ano=2024&bimestre=6:0
+[   38728ms] [ERROR] Erro ao buscar Previsão vs Realizado de Receitas: TypeError: Failed to fetch
+    at I_ (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:9931)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:26037 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   38729ms] [ERROR] Erro ao preparar dados de previsão vs realizado: TypeError: Cannot read properties of undefined (reading 'PREVISÃO ATUALIZADA (a)')
+    at d (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:28424)
+    at yAe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:31660)
+    at c1 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:38:17018)
+    at Z0 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:3139)
+    at ND (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:44833)
+    at TD (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39790)
+    at IF (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39718)
+    at Bp (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39570)
+    at OD (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:34647)
+    at S (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:25:1549) @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:371
+[   38730ms] [ERROR] Erro ao preparar dados de previsão vs realizado: TypeError: Cannot read properties of undefined (reading 'PREVISÃO ATUALIZADA (a)')
+    at d (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:28424)
+    at yAe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:372:32932)
+    at c1 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:38:17018)
+    at Z0 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:3139)
+    at ND (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:44833)
+    at TD (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39790)
+    at IF (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39718)
+    at Bp (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:39570)
+    at OD (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:40:34647)
+    at S (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:25:1549) @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:371
+[   40941ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/receita-corrente-liquida-mensal?cod_ibge=2301000&ano=2024:0
+[   40941ms] [ERROR] Erro ao buscar Receita Corrente Líquida Mensal: TypeError: Failed to fetch
+    at N7 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:6711)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:49995)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   40943ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/receita-corrente-liquida?cod_ibge=2301000&ano=2024&bimestre=6&anualizado=false:0
+[   40943ms] [ERROR] Erro ao buscar Receita Corrente Líquida: TypeError: Failed to fetch
+    at I7 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:6296)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:49898)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   40944ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/despesas/previsao-realizado?cod_ibge=2301000&ano=2024&bimestre=6:0
+[   40944ms] [ERROR] Erro ao buscar Previsão vs Realizado de Despesas: TypeError: Failed to fetch
+    at N_ (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:10892)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50172)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   40944ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/receitas/previsao-realizado?cod_ibge=2301000&ano=2024&bimestre=6:0
+[   40944ms] [ERROR] Erro ao buscar Previsão vs Realizado de Receitas: TypeError: Failed to fetch
+    at I_ (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:9931)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50078)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   40944ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/despesas/por-funcao?cod_ibge=2301000&ano=2024&bimestre=6:0
+[   40945ms] [ERROR] Erro ao buscar despesas por função: TypeError: Failed to fetch
+    at R_ (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:11709)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50258)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   40945ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/rgf/divida-consolidada-liquida?cod_ibge=2301000&ano=2024&quadrimestre=3:0
+[   40945ms] [ERROR] Erro ao buscar Dívida Consolidada Líquida: TypeError: Failed to fetch
+    at K1 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:24462)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50344)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   41104ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/rgf/despesas-pessoal-mensal?cod_ibge=2301000&ano=2024&quadrimestre=3:0
+[   41104ms] [ERROR] Erro ao buscar Despesas com Pessoal Mensal: TypeError: Failed to fetch
+    at G1 (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:27821)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50439)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297
+[   41105ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api-dashmunicipal--1eatjyf.nicetree-87df4534.eastus.azurecontainerapps.io/indicadores/calcular-capag?cod_ibge=2301000&ano=2024:0
+[   41105ms] [ERROR] Erro ao buscar dados da CAPAG: TypeError: Failed to fetch
+    at Zf (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:298:32406)
+    at queryFn (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:370:50529)
+    at Object.a [as fn] (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:56750)
+    at m (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52343)
+    at Object.start (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:52802)
+    at y2.fetch (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:58086)
+    at E2.Yu (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:78482)
+    at E2.onSubscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:73016)
+    at E2.subscribe (https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:46702)
+    at https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:271:81907 @ https://planejamento-municipal.vercel.app/assets/index-oRIaSpqx.js:297

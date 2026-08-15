@@ -17,14 +17,12 @@ export default async function DashboardPage() {
   const [
     totalProgramas,
     totalAcoes,
-    totalIndicadores,
     ppaAtivo,
     programasPorTipo,
     ultimosProgramas
   ] = await Promise.all([
     prisma.programa.count({ where: { ppa: { municipioId } } }),
     prisma.acaoGoverno.count({ where: { programa: { ppa: { municipioId } } } }),
-    prisma.indicadorDesempenho.count({ where: { programa: { ppa: { municipioId } } } }),
     prisma.pPA.findFirst({
       where: { municipioId, status: { in: ['APROVADO', 'VIGENTE', 'RASCUNHO'] } },
       orderBy: { anoInicio: 'desc' }
@@ -68,7 +66,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <KpiCard 
             label="Total de Programas" 
             value={totalProgramas} 
@@ -80,12 +78,6 @@ export default async function DashboardPage() {
             value={totalAcoes} 
             icon="rocket_launch" 
             color="blue"
-          />
-          <KpiCard 
-            label="Indicadores Ativos" 
-            value={totalIndicadores} 
-            icon="insights" 
-            color="emerald"
           />
           <div className="group relative overflow-hidden bg-primary p-6 rounded-2xl border border-primary/20 shadow-xl shadow-primary/20">
             <div className="absolute top-0 right-0 -mr-8 -mt-8 size-32 bg-white/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-700"></div>
@@ -209,7 +201,7 @@ export default async function DashboardPage() {
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-500 uppercase tracking-tighter border border-slate-200 dark:border-slate-700">
-                            {p.secretaria.sigla}
+                            {p.secretaria?.sigla || 'N/D'}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-xs text-slate-500 font-medium whitespace-nowrap">

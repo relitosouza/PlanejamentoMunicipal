@@ -152,6 +152,21 @@ export function ImportarWizard({ secretarias: _secretarias }: ImportarWizardProp
               </div>
             </div>
 
+            <div className="mb-6 flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg px-5 py-3">
+              <div className="flex items-center gap-2 text-blue-700">
+                <span className="material-symbols-outlined text-xl">info</span>
+                <span className="text-sm font-medium">Não tem o arquivo? Baixe o modelo oficial para preencher.</span>
+              </div>
+              <a
+                href="/api/templates/ppa"
+                download="modelo-importacao-ppa.xlsx"
+                className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-lg transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px]">download</span>
+                Baixar Modelo Excel
+              </a>
+            </div>
+
             <div
               onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
               onDragLeave={() => setDragOver(false)}

@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ppa_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ppa_db
+    ports:
+      - "5444:5432"
+    volumes:
+      - ppa_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  ppa_postgres_data:

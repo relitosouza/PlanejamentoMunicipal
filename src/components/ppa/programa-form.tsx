@@ -20,7 +20,6 @@ interface Secretaria {
 
 interface ProgramaFormProps {
   ppaId: string
-  secretarias: Secretaria[]
   defaultValues?: Partial<ProgramaInput>
   onSubmit: (data: ProgramaInput) => Promise<{ error?: string }>
   submitLabel?: string
@@ -29,7 +28,6 @@ interface ProgramaFormProps {
 
 export function ProgramaForm({
   ppaId,
-  secretarias,
   defaultValues,
   onSubmit,
   submitLabel = 'Salvar Programa',
@@ -103,30 +101,6 @@ export function ProgramaForm({
         )}
       </div>
 
-      <div>
-        <Label htmlFor="secretariaId">Secretaria Responsável</Label>
-        <Controller
-          name="secretariaId"
-          control={form.control}
-          render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger id="secretariaId" className="mt-1">
-                <SelectValue placeholder="Selecione..." />
-              </SelectTrigger>
-              <SelectContent>
-                {secretarias.map((s) => (
-                  <SelectItem key={s.id} value={s.id}>
-                    {s.sigla} — {s.nome}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-        {form.formState.errors.secretariaId && (
-          <p className="text-red-500 text-xs mt-1">{form.formState.errors.secretariaId.message}</p>
-        )}
-      </div>
 
       <div>
         <Label htmlFor="objetivo">Objetivo</Label>
